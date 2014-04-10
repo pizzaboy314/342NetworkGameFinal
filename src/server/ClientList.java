@@ -35,15 +35,17 @@ public class ClientList {
 		}
 	}
 	
-	public Socket getUserSocket(String _username)
+	public List<Socket> getUserSockets(List<String> usernames)
 	{
+		List<Socket> myList = new ArrayList<Socket>();
 		for (ClientObject thisClient: clients)
 		{
-			if (thisClient.getUsername() == _username)
+			for (String username: usernames)
+			if (thisClient.getUsername() == username)
 			{
-				return thisClient.getSocket();
+				myList.add(thisClient.getSocket());
 			}
 		}
-		return null;
+		return myList;
 	}
 }
