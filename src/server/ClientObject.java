@@ -7,8 +7,8 @@ public class ClientObject {
 	
 	public ClientObject(String _username, Socket _userSocket)
 	{
-		username = username;
-		userSocket = userSocket;
+		username = _username;
+		userSocket = _userSocket;
 	}
 	
 	public String getUsername()
