@@ -47,6 +47,7 @@ public class Server {
 			try{
 				ClientMessage myMessage =(ClientMessage)in.readObject();
 				this.username = myMessage.getSender();
+				clientList.userConnect(username, mySocket);
 			}
 			catch (EOFException e)
 			{
