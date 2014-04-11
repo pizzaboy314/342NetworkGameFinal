@@ -12,11 +12,12 @@ public class Client {
 		try{
 			client = new Socket("localhost", port);
 			Listener L = new Listener();
-			L.run();
+			L.start();
 			Scanner sc = new Scanner(System.in);
 			ObjectOutputStream out = new ObjectOutputStream(client.getOutputStream());
 			System.out.print("Username: ");
 			username = sc.nextLine();
+			out.writeObject(new server.ClientMessage(null, username, ""));
 			while(true)
 			{
 				System.out.print("Message: ");
@@ -30,10 +31,13 @@ public class Client {
 			}
 		}
 		catch (IOException e){
+			e.printStackTrace();
 		}
 	}
 	
 	private class Listener implements Runnable{
+		private Thread t;
+		
 		public void run()
 		{
 			try{
@@ -46,11 +50,18 @@ public class Client {
 			}
 			catch (Exception ex)
 			{
+
+				ex.printStackTrace();
 			}
+		}
+		public void start()
+		{
+			t = new Thread(this, "listen");
+			t.start();
 		}
 	}
 	public static void main(String args[])
 	{
-		Client myClient = new Client(9001);
+		Client myClient = new Client(9002);
 	}
 }

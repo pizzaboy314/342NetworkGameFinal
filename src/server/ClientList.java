@@ -6,6 +6,11 @@ import java.net.*;
 public class ClientList {
 	private List<ClientObject> clients;
 	
+	public ClientList()
+	{
+		clients = new ArrayList<ClientObject>();
+	}
+	
 	public void userConnect(String username, Socket userSocket) {
 		ClientObject client = new ClientObject(username, userSocket);
 		clients.add(client);
@@ -15,7 +20,7 @@ public class ClientList {
 	{
 		for (ClientObject thisClient: clients)
 		{
-			if (thisClient.getUsername() == _username)
+			if (thisClient.getUsername().equals(_username))
 			{
 				clients.remove(thisClient);
 				return;
@@ -41,7 +46,7 @@ public class ClientList {
 		for (ClientObject thisClient: clients)
 		{
 			for (String username: usernames)
-			if (thisClient.getUsername() == username)
+			if (thisClient.getUsername().equals(username))
 			{
 				myList.add(thisClient.getSocket());
 			}

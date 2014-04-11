@@ -1,6 +1,11 @@
 package server;
+import java.io.*;
 
-public class ServerMessage {
+public class ServerMessage implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8390697074092621636L;
 	private String sender;
 	private String message;
 	

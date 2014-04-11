@@ -1,8 +1,11 @@
 package server;
 
 import java.util.*;
+import java.io.*;
 
-public class ClientMessage {
+public class ClientMessage implements Serializable {
+
+	private static final long serialVersionUID = 1824338017583746179L;
 	private ArrayList<String> destinations;
 	private String username;
 	private String message;
