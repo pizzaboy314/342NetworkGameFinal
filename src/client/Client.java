@@ -9,11 +9,12 @@ public class Client {
 	private String username;
 
 	public Client(int port) {
+		Scanner sc = null; 
 		try {
 			client = new Socket("localhost", port);
 			Listener L = new Listener();
-			L.run();
-			Scanner sc = new Scanner(System.in);
+			(new Thread(L)).start();
+			sc = new Scanner(System.in);
 			ObjectOutputStream out = new ObjectOutputStream(
 					client.getOutputStream());
 			System.out.print("Username: ");
@@ -25,11 +26,15 @@ public class Client {
 				String myRecipient = sc.nextLine();
 				ArrayList<String> recipients = new ArrayList<String>();
 				recipients.add(myRecipient);
-				out.writeObject(new client.ClientMessage(recipients, username,
+				out.writeObject(new sharedResources.ClientMessage(recipients, username,
 						myMessage));
 
 			}
 		} catch (IOException e) {
+		}
+		finally{
+			if (sc != null)
+				sc.close();
 		}
 	}
 
@@ -39,12 +44,16 @@ public class Client {
 				ObjectInputStream in = new ObjectInputStream(
 						client.getInputStream());
 				while (true) {
-					server.ServerMessage messageObject = (server.ServerMessage) in
+					sharedResources.ServerMessage messageObject = (sharedResources.ServerMessage) in
 							.readObject();
 					System.out.print(messageObject.getSender() + ": "
 							+ messageObject.getMessage() + "\n");
 				}
-			} catch (Exception ex) {
+			} catch (IOException ex) {
+				System.err.println("IO Exception in Listener");
+			} catch (ClassNotFoundException ex) {
+				System.err.println("ClassNotFoundException in Listener");
+				
 			}
 		}
 	}

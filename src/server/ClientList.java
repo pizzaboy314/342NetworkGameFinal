@@ -3,7 +3,7 @@ package server;
 import java.util.*;
 import java.net.*;
 
-import client.ClientObject;
+import sharedResources.ClientObject;
 
 public class ClientList {
 	private List<ClientObject> clients;

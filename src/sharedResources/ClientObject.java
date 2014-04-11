@@ -1,4 +1,4 @@
-package client;
+package sharedResources;
 
 import java.io.Serializable;
 import java.net.*;

@@ -1,8 +1,10 @@
-package server;
+package sharedResources;
 
-public class ServerMessage {
-	private String sender;
-	private String message;
+import java.io.Serializable;
+
+public class ServerMessage implements Serializable{
+	protected String sender;
+	protected String message;
 
 	public ServerMessage(String sender, String message) {
 		this.sender = sender;

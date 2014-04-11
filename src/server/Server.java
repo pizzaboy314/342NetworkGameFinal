@@ -4,7 +4,8 @@ import java.net.*;
 import java.io.*;
 import java.util.*;
 
-import client.ClientMessage;
+import sharedResources.ClientMessage;
+import sharedResources.ServerMessage;
 
 public class Server {
 
