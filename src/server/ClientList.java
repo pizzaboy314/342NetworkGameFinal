@@ -15,7 +15,7 @@ public class ClientList {
 
 	public void userDisconnect(String _username) {
 		for (ClientObject thisClient : clients) {
-			if (thisClient.getUsername() == _username) {
+			if (thisClient.getUsername() == _username) {//TODO Might need .equals() later
 				clients.remove(thisClient);
 				return;
 			}
@@ -35,7 +35,7 @@ public class ClientList {
 		List<Socket> myList = new ArrayList<Socket>();
 		for (ClientObject thisClient : clients) {
 			for (String username : usernames)
-				if (thisClient.getUsername() == username) {
+				if (thisClient.getUsername() == username) {//TODO Might need .equals() later
 					myList.add(thisClient.getSocket());
 				}
 		}

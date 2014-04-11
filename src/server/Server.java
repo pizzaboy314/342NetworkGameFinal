@@ -18,9 +18,10 @@ public class Server {
 			while (true) {
 				Socket S = serverSocket.accept();
 				Listener L = new Listener(S);
-				L.run();
+				(new Thread(L)).start();
 			}
-		} catch (IOException e) {
+		} catch (Exception e) {
+			System.err.println("Error with socket");
 		}
 	}
 
@@ -34,7 +35,8 @@ public class Server {
 			this.mySocket = mySocket;
 			try {
 				in = new ObjectInputStream(mySocket.getInputStream());
-			} catch (IOException e) {
+			} catch (Exception e) {
+				System.err.println("Error in socket listener (constructor)");
 			}
 		}
 
@@ -45,18 +47,17 @@ public class Server {
 				clientList.userConnect(username, mySocket);
 				while (true) {
 					myMessage = (ClientMessage) in.readObject();
-					List<Socket> destinations = clientList
-							.getUserSockets(myMessage.getDestinations());
+					List<Socket> destinations = clientList.getUserSockets(myMessage.getDestinations());
 					for (Socket S : destinations) {
-						ObjectOutputStream out = new ObjectOutputStream(
-								S.getOutputStream());
-						out.writeObject(new ServerMessage(this.username,
-								myMessage.getMessage()));
+						ObjectOutputStream out = new ObjectOutputStream(S.getOutputStream());
+						out.writeObject(new ServerMessage(this.username,myMessage.getMessage()));
 					}
 				}
 			} catch (Exception ex) {
+				System.err.println("Error in socket Listener run");
 			}
 		}
+		
 	}
 
 	public static void main(String args[]) {

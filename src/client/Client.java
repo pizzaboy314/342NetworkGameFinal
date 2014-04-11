@@ -30,7 +30,8 @@ public class Client {
 						myMessage));
 
 			}
-		} catch (IOException e) {
+		} catch (Exception e) {
+			System.err.println("Error in Client constructor");
 		}
 		finally{
 			if (sc != null)
@@ -44,16 +45,11 @@ public class Client {
 				ObjectInputStream in = new ObjectInputStream(
 						client.getInputStream());
 				while (true) {
-					sharedResources.ServerMessage messageObject = (sharedResources.ServerMessage) in
-							.readObject();
-					System.out.print(messageObject.getSender() + ": "
-							+ messageObject.getMessage() + "\n");
+					sharedResources.ServerMessage messageObject = (sharedResources.ServerMessage) in.readObject();
+					System.out.print(messageObject.getSender() + ": " + messageObject.getMessage() + "\n");
 				}
-			} catch (IOException ex) {
-				System.err.println("IO Exception in Listener");
-			} catch (ClassNotFoundException ex) {
-				System.err.println("ClassNotFoundException in Listener");
-				
+			} catch (Exception ex) {
+				System.err.println("Error in Client constructor");
 			}
 		}
 	}
