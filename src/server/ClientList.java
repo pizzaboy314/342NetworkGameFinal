@@ -6,7 +6,7 @@ import java.net.*;
 import sharedResources.ClientObject;
 
 public class ClientList {
-	private List<ClientObject> clients;
+	private List<ClientObject> clients;//Vector thread safe?
 
 	public void userConnect(String username, Socket userSocket) {
 		ClientObject client = new ClientObject(username, userSocket);

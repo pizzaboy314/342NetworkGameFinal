@@ -7,7 +7,7 @@ import java.util.*;
 import sharedResources.ClientMessage;
 import sharedResources.ServerMessage;
 
-public class Server {
+public class Server extends Thread {
 
 	private ServerSocket serverSocket;
 	private ClientList clientList;
@@ -15,13 +15,21 @@ public class Server {
 	public Server(int port) {
 		try {
 			serverSocket = new ServerSocket(port);
+		} catch (Exception e) {
+			System.err.println("Error with socket");
+		}
+		start();//TODO maybe start somewhere else
+	}
+
+	@Override
+	public void run() {
+		try {
 			while (true) {
 				Socket S = serverSocket.accept();
 				Listener L = new Listener(S);
 				(new Thread(L)).start();
 			}
 		} catch (Exception e) {
-			System.err.println("Error with socket");
 		}
 	}
 
@@ -47,17 +55,20 @@ public class Server {
 				clientList.userConnect(username, mySocket);
 				while (true) {
 					myMessage = (ClientMessage) in.readObject();
-					List<Socket> destinations = clientList.getUserSockets(myMessage.getDestinations());
+					List<Socket> destinations = clientList
+							.getUserSockets(myMessage.getDestinations());
 					for (Socket S : destinations) {
-						ObjectOutputStream out = new ObjectOutputStream(S.getOutputStream());
-						out.writeObject(new ServerMessage(this.username,myMessage.getMessage()));
+						ObjectOutputStream out = new ObjectOutputStream(
+								S.getOutputStream());
+						out.writeObject(new ServerMessage(this.username,
+								myMessage.getMessage()));
 					}
 				}
 			} catch (Exception ex) {
 				System.err.println("Error in socket Listener run");
 			}
 		}
-		
+
 	}
 
 	public static void main(String args[]) {
