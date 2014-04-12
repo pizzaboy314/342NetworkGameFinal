@@ -4,74 +4,82 @@ import java.net.*;
 import java.io.*;
 import java.util.*;
 
-import sharedResources.ClientMessage;
-import sharedResources.ServerMessage;
+import sharedResources.*;
 
-public class Server extends Thread {
-
+public class Server {
+	
 	private ServerSocket serverSocket;
 	private ClientList clientList;
-
-	public Server(int port) {
+	
+	public Server (int port)
+	{
 		try {
 			serverSocket = new ServerSocket(port);
-		} catch (Exception e) {
-			System.err.println("Error with socket");
-		}
-		start();//TODO maybe start somewhere else
-	}
-
-	@Override
-	public void run() {
-		try {
-			while (true) {
+			while(true)
+			{
 				Socket S = serverSocket.accept();
 				Listener L = new Listener(S);
-				(new Thread(L)).start();
+				L.run();
 			}
-		} catch (Exception e) {
+		}
+		catch (IOException e)
+		{
 		}
 	}
-
-	private class Listener implements Runnable {
+	
+	private class Listener implements Runnable{
 		private Thread t;
 		private Socket mySocket;
 		private ObjectInputStream in;
 		private String username;
-
-		public Listener(Socket mySocket) {
+		
+		public Listener(Socket mySocket)
+		{
 			this.mySocket = mySocket;
 			try {
 				in = new ObjectInputStream(mySocket.getInputStream());
-			} catch (Exception e) {
-				System.err.println("Error in socket listener (constructor)");
+			}
+			catch (IOException e)
+			{
 			}
 		}
-
-		public void run() {
-			try {
-				ClientMessage myMessage = (ClientMessage) in.readObject();
+		
+		public void run()
+		{
+			try{
+				ClientMessage myMessage =(ClientMessage)in.readObject();
 				this.username = myMessage.getSender();
 				clientList.userConnect(username, mySocket);
-				while (true) {
-					myMessage = (ClientMessage) in.readObject();
-					List<Socket> destinations = clientList
-							.getUserSockets(myMessage.getDestinations());
-					for (Socket S : destinations) {
-						ObjectOutputStream out = new ObjectOutputStream(
-								S.getOutputStream());
-						out.writeObject(new ServerMessage(this.username,
-								myMessage.getMessage()));
+			}
+			catch (EOFException e)
+			{
+			}
+			catch (Exception ex)
+			{
+			}
+			while(true)
+			{
+				try{
+					ClientMessage myMessage =(ClientMessage)in.readObject();
+					List<Socket> destinations = clientList.getUserSockets(myMessage.getDestinations());
+					for (Socket S: destinations)
+					{
+						ObjectOutputStream out = new ObjectOutputStream(S.getOutputStream());
+						out.writeObject(new ServerMessage(this.username, myMessage.getMessage()));
 					}
 				}
-			} catch (Exception ex) {
-				System.err.println("Error in socket Listener run");
+				catch (EOFException e)
+				{
+				}
+				catch (Exception ex)
+				{
+				}
 			}
 		}
-
 	}
-
-	public static void main(String args[]) {
+	
+	public static void main(String args[])
+	{
 		Server myServer = new Server(9001);
 	}
 }
