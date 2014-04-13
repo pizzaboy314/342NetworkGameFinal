@@ -19,28 +19,34 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 public class ClientPanel extends JPanel implements ListSelectionListener, ActionListener {
-	private DefaultListModel<String> listModel;
-	private JTextField input, output;
+	private DefaultListModel<String> clListModel, outputModel;//list to add string
+	private JList<String> cList, oList;//for display count
+	private JTextField input;
+	private JScrollPane listWindow, outputWindow;
 
 	public ClientPanel() {
 		setLayout(new BorderLayout());
-		listModel = new DefaultListModel<String>();
-		listModel.addElement("Name 1");
-		listModel.addElement("Name 2");
-		JList<String> list = new JList<String>(listModel);
-		list.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-		list.setVisibleRowCount(10);
-		JScrollPane listWindow = new JScrollPane(list);
+		clListModel = new DefaultListModel<String>();
+		outputModel = new DefaultListModel<String>();
+		clListModel.addElement("Name 1");
+		clListModel.addElement("Name 2");
+		cList = new JList<String>(clListModel);
+		cList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+		cList.setVisibleRowCount(10);
+		oList = new JList<String>(outputModel);
+		oList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		oList.setVisibleRowCount(10);
+		listWindow = new JScrollPane(cList);
 		listWindow.setBorder(BorderFactory.createLineBorder(Color.black));
+		outputWindow = new JScrollPane(oList);
+		outputWindow.setBorder(BorderFactory.createLineBorder(Color.black));
 		JPanel ioPanel = new JPanel();
 		ioPanel.setLayout(new BorderLayout());
 		ioPanel.setBorder(new EmptyBorder(3, 3, 3, 3));
 		input = new JTextField();
 		input.addActionListener(this);
-		output = new JTextField();
-		output.setBackground(Color.white);
-		output.setEditable(false);
-		ioPanel.add(output, BorderLayout.CENTER);
+		
+		ioPanel.add(outputWindow, BorderLayout.CENTER);
 		ioPanel.add(input, BorderLayout.SOUTH);
 		add(ioPanel, BorderLayout.CENTER);
 		add(listWindow, BorderLayout.EAST);
@@ -56,7 +62,7 @@ public class ClientPanel extends JPanel implements ListSelectionListener, Action
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		if (e.getSource() == input){
-			output.setText(input.getText());
+			outputModel.addElement(input.getText());
 			input.setText("");
 		}
 		
