@@ -3,7 +3,7 @@ package server;
 import java.net.*;
 import java.io.*;
 import java.util.*;
-
+import client.*;
 import sharedResources.*;
 
 public class Server {
@@ -13,17 +13,19 @@ public class Server {
 	
 	public Server (int port)
 	{
+		clientList = new ClientList();
 		try {
 			serverSocket = new ServerSocket(port);
 			while(true)
 			{
 				Socket S = serverSocket.accept();
 				Listener L = new Listener(S);
-				L.run();
+				L.start();
 			}
 		}
 		catch (IOException e)
 		{
+			e.printStackTrace();
 		}
 	}
 	
@@ -41,7 +43,14 @@ public class Server {
 			}
 			catch (IOException e)
 			{
+				e.printStackTrace();
 			}
+		}
+		
+		public void start()
+		{
+			t = new Thread(this);
+			t.start();
 		}
 		
 		public void run()
@@ -53,9 +62,11 @@ public class Server {
 			}
 			catch (EOFException e)
 			{
+				e.printStackTrace();
 			}
 			catch (Exception ex)
 			{
+				ex.printStackTrace();
 			}
 			while(true)
 			{
@@ -70,9 +81,11 @@ public class Server {
 				}
 				catch (EOFException e)
 				{
+					e.printStackTrace();
 				}
 				catch (Exception ex)
 				{
+					ex.printStackTrace();
 				}
 			}
 		}
@@ -80,6 +93,6 @@ public class Server {
 	
 	public static void main(String args[])
 	{
-		Server myServer = new Server(9001);
+		Server myServer = new Server(9002);
 	}
 }
