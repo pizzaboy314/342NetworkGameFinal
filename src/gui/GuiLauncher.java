@@ -1,5 +1,7 @@
 package gui;
 
+import java.awt.Dimension;
+
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
@@ -16,6 +18,7 @@ public class GuiLauncher extends JFrame implements Runnable{
 				JOptionPane.YES_NO_OPTION);
 		if (choice == 0){
 			System.out.println("first");
+			this.add(new ServerPanel());
 			//Server myServer = new Server(9001);
 			//TODO
 		}else{
@@ -24,7 +27,7 @@ public class GuiLauncher extends JFrame implements Runnable{
 			//Client myClient = new Client(9001);
 			//TODO
 		}
-		this.setSize(300, 300);
+		this.setPreferredSize(new Dimension(500, 500));
 		this.pack();
 	}
 

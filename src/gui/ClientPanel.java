@@ -25,8 +25,8 @@ public class ClientPanel extends JPanel implements ListSelectionListener, Action
 	public ClientPanel() {
 		setLayout(new BorderLayout());
 		listModel = new DefaultListModel<String>();
-		listModel.addElement("stuff");
-		listModel.addElement("stuff2");
+		listModel.addElement("Name 1");
+		listModel.addElement("Name 2");
 		JList<String> list = new JList<String>(listModel);
 		list.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		list.setVisibleRowCount(10);
