@@ -31,7 +31,10 @@ public class Client {
 				
 			}
 		}
-		catch (IOException e){
+		catch (ConnectException e){
+			System.err.println("Unable to connect, exiting");
+		}
+		catch (Exception e){
 			e.printStackTrace();
 		}
 	}

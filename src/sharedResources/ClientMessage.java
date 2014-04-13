@@ -1,18 +1,20 @@
 package sharedResources;
 
-import java.io.Serializable;
 import java.util.*;
 
-public class ClientMessage extends ServerMessage {
-	private ArrayList<String> destinations;
+public class ClientMessage extends ServerMessage{
 
-	public ClientMessage(ArrayList<String> _destinations, String _username,
-			String _message) {
+	private static final long serialVersionUID = 1824338017583746179L;
+	private ArrayList<String> destinations;
+	
+	public ClientMessage(ArrayList<String> _destinations, String _username, String _message)
+	{
 		super(_username, _message);
 		destinations = _destinations;
 	}
-
-	public ArrayList<String> getDestinations() {
+	
+	public ArrayList<String> getDestinations()
+	{
 		return destinations;
 	}
 }

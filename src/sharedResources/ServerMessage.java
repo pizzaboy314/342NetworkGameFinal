@@ -1,21 +1,28 @@
 package sharedResources;
 
-import java.io.Serializable;
+import java.io.*;
 
-public class ServerMessage implements Serializable{
-	protected String sender;
-	protected String message;
-
-	public ServerMessage(String sender, String message) {
+public class ServerMessage implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8390697074092621636L;
+	private String sender;
+	private String message;
+	
+	public ServerMessage(String sender, String message)
+	{
 		this.sender = sender;
 		this.message = message;
 	}
-
-	public String getSender() {
+	
+	public String getSender()
+	{
 		return this.sender;
 	}
-
-	public String getMessage() {
+	
+	public String getMessage()
+	{
 		return this.message;
 	}
 }
