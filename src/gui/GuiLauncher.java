@@ -16,12 +16,12 @@ public class GuiLauncher extends JFrame implements Runnable{
 				JOptionPane.YES_NO_OPTION);
 		if (choice == 0){
 			System.out.println("first");
-			Server myServer = new Server(9001);
-			this.add(new ServerPanel());
+			//Server myServer = new Server(9001);
 			//TODO
 		}else{
 			System.out.println("sec");
-			Client myClient = new Client(9001);
+			this.add(new ClientPanel());
+			//Client myClient = new Client(9001);
 			//TODO
 		}
 		this.setSize(300, 300);

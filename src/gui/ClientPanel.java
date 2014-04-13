@@ -18,11 +18,11 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-public class ServerPanel extends JPanel implements ListSelectionListener, ActionListener {
+public class ClientPanel extends JPanel implements ListSelectionListener, ActionListener {
 	private DefaultListModel<String> listModel;
 	private JTextField input, output;
 
-	public ServerPanel() {
+	public ClientPanel() {
 		setLayout(new BorderLayout());
 		listModel = new DefaultListModel<String>();
 		listModel.addElement("stuff");
