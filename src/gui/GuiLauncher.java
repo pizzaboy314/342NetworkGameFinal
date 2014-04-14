@@ -19,13 +19,11 @@ public class GuiLauncher extends JFrame implements Runnable{
 		System.out.println("Option = " + choice);
 		if (choice == 0){
 			System.out.println("first");
-			Server myServer = new Server(9001);
-			this.add(myServer.getPanel());
+			this.add(new ServerPanel());
 			//TODO
 		} else {
 			System.out.println("sec");
-			Client myClient = new Client(9001);
-			this.add(myClient.getPanel());
+			this.add(new ClientPanel(9001));//TODO make 9001 a variable
 			//TODO
 		}
 		this.setPreferredSize(new Dimension(500, 500));

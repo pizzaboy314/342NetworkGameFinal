@@ -11,7 +11,8 @@ public class ServerPanel extends JPanel{
 	private JPanel infoPanel;
 
 	public ServerPanel() {
-		cPanel = new ClientPanel();
+		int port  = 9001;
+		cPanel = new ClientPanel(port);
 		infoPanel = new JPanel();
 		JLabel temp = new JLabel();
 		temp.setText("Connection Info will be here");

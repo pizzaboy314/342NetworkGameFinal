@@ -16,14 +16,18 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import client.Client;
+
 public class ClientPanel extends JPanel implements ListSelectionListener, ActionListener {
 	private DefaultListModel<String> clListModel, outputModel;//list to add string
+	private Client clSocket;
 	private JList<String> cList, oList;//for display count
 	private JTextField input;
 	private JScrollPane listWindow, outputWindow;
 
-	public ClientPanel() {
+	public ClientPanel(int port) {
 		setLayout(new BorderLayout());
+		clSocket = new Client(port);
 		clListModel = new DefaultListModel<String>();
 		outputModel = new DefaultListModel<String>();
 		clListModel.addElement("Name 1");
@@ -59,6 +63,7 @@ public class ClientPanel extends JPanel implements ListSelectionListener, Action
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == input){
 			outputModel.addElement(input.getText());
+			clSocket.sendMessage(input.getText(), "");
 			input.setText("");
 		}
 		
