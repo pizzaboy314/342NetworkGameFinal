@@ -1,18 +1,28 @@
 package server;
 
-import java.net.*;
-import java.io.*;
-import java.util.*;
-import client.*;
-import sharedResources.*;
+import gui.ClientPanel;
+import gui.ServerPanel;
+
+import java.io.EOFException;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.util.List;
+
+import sharedResources.ClientMessage;
+import sharedResources.ServerMessage;
 
 public class Server {
 	
 	private ServerSocket serverSocket;
 	private ClientList clientList;
+	private ServerPanel panel;
 	
 	public Server (int port)
 	{
+		panel = new ServerPanel();
 		clientList = new ClientList();
 		try {
 			serverSocket = new ServerSocket(port);
@@ -49,6 +59,10 @@ public class Server {
 			{
 				e.printStackTrace();
 			}
+		}
+
+		public ServerPanel getPanel() {
+			return panel;
 		}
 		
 		public void start()
