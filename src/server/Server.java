@@ -19,8 +19,8 @@ public class Server {
 			while(true)
 			{
 				Socket S = serverSocket.accept();
-				Listener L = new Listener(S);
-				L.start();
+				ClientHandler ch = new ClientHandler(S);
+				ch.start();
 			}
 		}
 		catch (IOException e)
@@ -29,13 +29,13 @@ public class Server {
 		}
 	}
 	
-	private class Listener implements Runnable{
+	private class ClientHandler implements Runnable{
 		private Thread t;
 		private Socket mySocket;
 		private ObjectInputStream in;
 		private String username;
 		
-		public Listener(Socket mySocket)
+		public ClientHandler(Socket mySocket)
 		{
 			this.mySocket = mySocket;
 			try {
@@ -58,6 +58,7 @@ public class Server {
 			try{
 				ClientMessage myMessage =(ClientMessage)in.readObject();
 				this.username = myMessage.getSender();
+				System.out.println("Server gets: " + myMessage.toString());
 				clientList.userConnect(username, mySocket);
 			}
 			catch (EOFException e)

@@ -25,4 +25,9 @@ public class ServerMessage implements Serializable {
 	{
 		return this.message;
 	}
+	
+	@Override
+	public String toString(){
+		return message + ", From: " + sender;
+	}
 }
