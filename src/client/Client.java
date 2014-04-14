@@ -1,16 +1,26 @@
 package client;
 
-import java.util.*;
-import java.io.*;
-import java.net.*;
-import sharedResources.*;
+import gui.ClientPanel;
+
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.ConnectException;
+import java.net.Socket;
+import java.util.ArrayList;
+import java.util.Scanner;
+
+import sharedResources.ClientMessage;
+import sharedResources.ServerMessage;
 
 public class Client {
 	private Socket client;
 	private String username;
+
+	private ClientPanel panel;
 	public Client(int port)
 	{
-		try{
+		panel = new ClientPanel();
+		try {
 			client = new Socket("localhost", port);
 			Listener L = new Listener();
 			L.start();
@@ -67,5 +77,9 @@ public class Client {
 	public static void main(String args[])
 	{
 		Client myClient = new Client(9002);
+	}
+
+	public ClientPanel getPanel() {
+		return panel;
 	}
 }
