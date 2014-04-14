@@ -6,16 +6,16 @@ import java.net.*;
 import sharedResources.*;
 
 public class Client {
-	private Socket client;
+	private Socket serverInput;
 	private String username;
 	public Client(int port)
 	{
 		try{
-			client = new Socket("localhost", port);
-			Listener L = new Listener();
+			serverInput = new Socket("localhost", port);
+			ServerHandler L = new ServerHandler();
 			L.start();
 			Scanner sc = new Scanner(System.in);
-			ObjectOutputStream out = new ObjectOutputStream(client.getOutputStream());
+			ObjectOutputStream out = new ObjectOutputStream(serverInput.getOutputStream());
 			System.out.print("Username: ");
 			username = sc.nextLine();
 			out.writeObject(new ClientMessage(null, username, ""));
@@ -39,13 +39,13 @@ public class Client {
 		}
 	}
 	
-	private class Listener implements Runnable{
+	private class ServerHandler implements Runnable{
 		private Thread t;
 		
 		public void run()
 		{
 			try{
-				ObjectInputStream in = new ObjectInputStream(client.getInputStream());
+				ObjectInputStream in = new ObjectInputStream(serverInput.getInputStream());
 				while(true)
 				{
 					ServerMessage messageObject = (ServerMessage)in.readObject();

@@ -27,6 +27,10 @@ public class Server {
 		{
 			e.printStackTrace();
 		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
 	}
 	
 	private class ClientHandler implements Runnable{
@@ -73,6 +77,7 @@ public class Server {
 			{
 				try{
 					ClientMessage myMessage =(ClientMessage)in.readObject();
+					System.out.println("Server gets: " + myMessage.toString());
 					List<Socket> destinations = clientList.getUserSockets(myMessage.getDestinations());
 					for (Socket S: destinations)
 					{
@@ -82,11 +87,15 @@ public class Server {
 				}
 				catch (EOFException e)
 				{
+					System.err.println("EOF reached");
 					e.printStackTrace();
+					break;
 				}
 				catch (Exception ex)
 				{
+					System.err.println("Some other error in client handler (run)");
 					ex.printStackTrace();
+					break;
 				}
 			}
 		}
