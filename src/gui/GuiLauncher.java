@@ -16,10 +16,11 @@ public class GuiLauncher extends JFrame implements Runnable{
 		int choice = JOptionPane.showConfirmDialog(this,
 				"Are you a server?", "Launcher",
 				JOptionPane.YES_NO_OPTION);
+		System.out.println("Option = " + choice);
 		if (choice == 0){
 			System.out.println("first");
 			Server myServer = new Server(9001);
-			this.add(new ServerPanel());
+			this.add(myServer.getPanel());
 			//TODO
 		} else {
 			System.out.println("sec");

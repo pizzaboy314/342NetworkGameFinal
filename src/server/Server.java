@@ -14,7 +14,7 @@ import java.util.List;
 import sharedResources.ClientMessage;
 import sharedResources.ServerMessage;
 
-public class Server {
+public class Server extends Thread{
 	
 	private ServerSocket serverSocket;
 	private ClientList clientList;
@@ -26,12 +26,6 @@ public class Server {
 		clientList = new ClientList();
 		try {
 			serverSocket = new ServerSocket(port);
-			while(true)
-			{
-				Socket S = serverSocket.accept();
-				ClientHandler ch = new ClientHandler(S);
-				ch.start();
-			}
 		}
 		catch (IOException e)
 		{
@@ -39,6 +33,22 @@ public class Server {
 		}
 		catch (Exception e)
 		{
+			e.printStackTrace();
+		}
+		this.start();
+	}
+	
+	@Override
+	public void run(){
+		try {
+			while (true) {
+				Socket S;
+				S = serverSocket.accept();
+				ClientHandler ch = new ClientHandler(S);
+				ch.start();
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -59,10 +69,6 @@ public class Server {
 			{
 				e.printStackTrace();
 			}
-		}
-
-		public ServerPanel getPanel() {
-			return panel;
 		}
 		
 		public void start()
@@ -113,6 +119,10 @@ public class Server {
 				}
 			}
 		}
+	}
+
+	public ServerPanel getPanel() {
+		return panel;
 	}
 	
 	public static void main(String args[])
