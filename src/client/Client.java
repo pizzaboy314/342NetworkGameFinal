@@ -1,5 +1,6 @@
 package client;
 
+import java.awt.image.RescaleOp;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -22,13 +23,15 @@ public class Client{
 		try {
 			serverInput = new Socket("localhost", port);
 			ServerHandler sh = new ServerHandler();
+			out = new ObjectOutputStream(serverInput.getOutputStream());
 			sh.start();
+			/*
 			Scanner sc = new Scanner(System.in);
 			out = new ObjectOutputStream(serverInput.getOutputStream());
 			System.out.print("Username: ");
 			username = sc.nextLine();
+			
 			out.writeObject(new ClientMessage(null, username, ""));
-			/*
 			while(true)
 			{
 				System.out.print("Message: ");
@@ -78,6 +81,16 @@ public class Client{
 	public static void main(String args[])
 	{
 		Client myClient = new Client(9002);
+	}
+	
+	public void sendName(String nm){
+		username = nm;
+		try {
+			out.writeObject(new ClientMessage(null, username, ""));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public void sendMessage(String str, String toPerson){

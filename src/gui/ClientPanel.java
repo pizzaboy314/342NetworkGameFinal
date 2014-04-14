@@ -7,7 +7,9 @@ import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
+import javax.swing.JDialog;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
@@ -27,7 +29,9 @@ public class ClientPanel extends JPanel implements ListSelectionListener, Action
 
 	public ClientPanel(int port) {
 		setLayout(new BorderLayout());
+		String name = JOptionPane.showInputDialog("Enter Username: ");
 		clSocket = new Client(port);
+		clSocket.sendName(name);
 		clListModel = new DefaultListModel<String>();
 		outputModel = new DefaultListModel<String>();
 		clListModel.addElement("Name 1");
