@@ -1,18 +1,14 @@
 package client;
 
 import gui.ClientPanel;
-import gui.ServerPanel;
 
-import java.awt.image.RescaleOp;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ConnectException;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.Scanner;
 
-import server.ClientList;
 import sharedResources.ClientMessage;
 import sharedResources.ServerMessage;
 
@@ -63,8 +59,9 @@ public class Client{
 		
 		public void run()
 		{
+			ObjectInputStream in = null;
 			try{
-				ObjectInputStream in = new ObjectInputStream(serverInput.getInputStream());
+				in = new ObjectInputStream(serverInput.getInputStream());
 				while(true)
 				{
 					ServerMessage messageObject = (ServerMessage)in.readObject();
@@ -76,7 +73,13 @@ public class Client{
 			}
 			catch (Exception ex)
 			{
-
+				if (in != null){
+					try {
+						in.close();
+					} catch (Exception e) {
+						ex.printStackTrace();
+					}
+				}
 				ex.printStackTrace();
 			}
 		}

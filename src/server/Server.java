@@ -103,6 +103,7 @@ public class Server extends Thread{
 					{
 						ObjectOutputStream out = new ObjectOutputStream(S.getOutputStream());
 						out.writeObject(new ServerMessage(this.username, myMessage.getMessage()));
+						out.close();
 					}
 				}
 				catch (EOFException e)

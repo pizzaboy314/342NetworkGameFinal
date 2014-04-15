@@ -19,10 +19,12 @@ public class ClientList {
 	public void userConnect(String username, Socket userSocket) {
 		ClientObject client = new ClientObject(username, userSocket);
 		try {
+			ObjectOutputStream cout = new ObjectOutputStream(userSocket.getOutputStream());
 			ObjectOutputStream out;
 			for (ClientObject cl : clients){
 				out = new ObjectOutputStream(cl.getSocket().getOutputStream());
 				out.writeObject(new ServerMessage(username, null));
+				out.writeObject(new ServerMessage(cl.getUsername(), null));
 			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
