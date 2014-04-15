@@ -23,8 +23,8 @@ public class ClientList {
 			ObjectOutputStream out;
 			for (ClientObject cl : clients){
 				out = new ObjectOutputStream(cl.getSocket().getOutputStream());
-				out.writeObject(new ServerMessage(username, null));
-				out.writeObject(new ServerMessage(cl.getUsername(), null));
+				out.writeObject(new ServerMessage(true, username));
+				cout.writeObject(new ServerMessage(true, cl.getUsername()));
 			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -42,9 +42,20 @@ public class ClientList {
 				clients.remove(thisClient);
 				return;
 			}
+			else
+			{
+				try{
+					ObjectOutputStream out = new ObjectOutputStream(thisClient.getSocket().getOutputStream());
+					out.writeObject(new ServerMessage(false, _username));
+				}
+				catch (Exception ex)
+				{
+				}
+			}
 		}
 	}
 	
+	/*
 	public void userDisconnect(Socket _userSocket)
 	{
 		for (ClientObject thisClient: clients)
@@ -55,7 +66,7 @@ public class ClientList {
 				return;
 			}
 		}
-	}
+	}*/
 	
 	public List<Socket> getUserSockets(List<String> usernames)
 	{

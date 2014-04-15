@@ -9,6 +9,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.List;
 
 import sharedResources.ClientMessage;
@@ -94,7 +95,7 @@ public class Server extends Thread{
 				ex.printStackTrace();
 			}
 			while(true)
-			{
+			{ 	
 				try{
 					ClientMessage myMessage =(ClientMessage)in.readObject();
 					System.out.println("Server gets: " + myMessage.toString());
@@ -106,11 +107,16 @@ public class Server extends Thread{
 						out.close();
 					}
 				}
+				catch (SocketException e)
+				{
+					clientList.userDisconnect(username);
+					break;
+				}
 				catch (EOFException e)
 				{
-					System.err.println("EOF reached");
-					e.printStackTrace();
-					break;
+					//System.err.println("EOF reached");
+					//e.printStackTrace();
+					//break;
 				}
 				catch (Exception ex)
 				{

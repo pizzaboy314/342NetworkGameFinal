@@ -64,11 +64,17 @@ public class Client{
 				in = new ObjectInputStream(serverInput.getInputStream());
 				while(true)
 				{
-					ServerMessage messageObject = (ServerMessage)in.readObject();
-					if (messageObject.getMessage() == null){
-						panel.addUser(messageObject.getSender());
+					try {
+					
+						ServerMessage messageObject = (ServerMessage)in.readObject();
+						if (messageObject.getMessage() == null){
+							panel.addUser(messageObject.getSender());
+						}
+						System.out.print(messageObject.getSender() + ": " + messageObject.getMessage() + "\n");
 					}
-					System.out.print(messageObject.getSender() + ": " + messageObject.getMessage() + "\n");
+					catch (Exception ex){
+						
+					}
 				}
 			}
 			catch (Exception ex)
