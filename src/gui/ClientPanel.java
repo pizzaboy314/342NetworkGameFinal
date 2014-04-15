@@ -30,12 +30,11 @@ public class ClientPanel extends JPanel implements ListSelectionListener, Action
 	public ClientPanel(int port) {
 		setLayout(new BorderLayout());
 		String name = JOptionPane.showInputDialog("Enter Username: ");
-		clSocket = new Client(port);
+		clSocket = new Client(port, this);
 		clSocket.sendName(name);
 		clListModel = new DefaultListModel<String>();
 		outputModel = new DefaultListModel<String>();
-		clListModel.addElement("Name 1");
-		clListModel.addElement("Name 2");
+		
 		cList = new JList<String>(clListModel);
 		cList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		cList.setVisibleRowCount(10);
@@ -56,6 +55,10 @@ public class ClientPanel extends JPanel implements ListSelectionListener, Action
 		ioPanel.add(input, BorderLayout.SOUTH);
 		add(ioPanel, BorderLayout.CENTER);
 		add(listWindow, BorderLayout.EAST);
+	}
+	
+	public void addUser(String nm){
+		clListModel.addElement(nm);
 	}
 
 	@Override

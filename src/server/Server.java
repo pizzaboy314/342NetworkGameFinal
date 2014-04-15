@@ -18,9 +18,11 @@ public class Server extends Thread{
 	
 	private ServerSocket serverSocket;
 	private ClientList clientList;
+	private ServerPanel panel;
 	
-	public Server (int port)
+	public Server (int port, ServerPanel pn)
 	{
+		panel = pn;
 		clientList = new ClientList();
 		try {
 			serverSocket = new ServerSocket(port);
@@ -121,6 +123,6 @@ public class Server extends Thread{
 	
 	public static void main(String args[])
 	{
-		Server myServer = new Server(9001);
+		Server myServer = new Server(9001, null);//TODO remove
 	}
 }

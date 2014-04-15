@@ -1,5 +1,8 @@
 package client;
 
+import gui.ClientPanel;
+import gui.ServerPanel;
+
 import java.awt.image.RescaleOp;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -17,9 +20,11 @@ public class Client{
 	private Socket serverInput;
 	private String username;
 	private ObjectOutputStream out;
+	private ClientPanel panel;
 
-	public Client(int port)
+	public Client(int port, ClientPanel pn)
 	{
+		panel = pn;
 		try {
 			serverInput = new Socket("localhost", port);
 			ServerHandler sh = new ServerHandler();
@@ -63,6 +68,9 @@ public class Client{
 				while(true)
 				{
 					ServerMessage messageObject = (ServerMessage)in.readObject();
+					if (messageObject.getMessage() == null){
+						panel.addUser(messageObject.getSender());
+					}
 					System.out.print(messageObject.getSender() + ": " + messageObject.getMessage() + "\n");
 				}
 			}
@@ -77,10 +85,6 @@ public class Client{
 			t = new Thread(this, "listen");
 			t.start();
 		}
-	}
-	public static void main(String args[])
-	{
-		Client myClient = new Client(9002);
 	}
 	
 	public void sendName(String nm){
