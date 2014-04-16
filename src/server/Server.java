@@ -13,6 +13,7 @@ import java.net.SocketException;
 import java.util.List;
 
 import sharedResources.ClientMessage;
+import sharedResources.ClientObject;
 import sharedResources.ServerMessage;
 
 public class Server extends Thread{
@@ -56,20 +57,12 @@ public class Server extends Thread{
 	
 	private class ClientHandler implements Runnable{
 		private Thread t;
-		private Socket mySocket;
-		private ObjectInputStream in;
+		private ClientObject clObj;
 		private String username;
 		
 		public ClientHandler(Socket mySocket)
 		{
-			this.mySocket = mySocket;
-			try {
-				in = new ObjectInputStream(mySocket.getInputStream());
-			}
-			catch (IOException e)
-			{
-				e.printStackTrace();
-			}
+			clObj = new ClientObject("", mySocket);
 		}
 		
 		public void start()
@@ -81,10 +74,11 @@ public class Server extends Thread{
 		public void run()
 		{
 			try{
-				ClientMessage myMessage =(ClientMessage)in.readObject();
+				ClientMessage myMessage =(ClientMessage)clObj.getObIn().readObject();
 				this.username = myMessage.getSender();
+				clObj.setName(username);
 				System.out.println("Server gets: " + myMessage.toString());
-				clientList.userConnect(username, mySocket);
+				clientList.userConnect(username, clObj);
 			}
 			catch (EOFException e)
 			{
@@ -97,14 +91,12 @@ public class Server extends Thread{
 			while(true)
 			{ 	
 				try{
-					ClientMessage myMessage =(ClientMessage)in.readObject();
+					ClientMessage myMessage =(ClientMessage)clObj.getObIn().readObject();
 					System.out.println("Server gets: " + myMessage.toString());
-					List<Socket> destinations = clientList.getUserSockets(myMessage.getDestinations());
-					for (Socket S: destinations)
+					List<ObjectOutputStream> destinations = clientList.getUserOutStreams(myMessage.getDestinations());
+					for (ObjectOutputStream s: destinations)
 					{
-						ObjectOutputStream out = new ObjectOutputStream(S.getOutputStream());
-						out.writeObject(new ServerMessage(this.username, myMessage.getMessage()));
-						out.close();
+						s.writeObject(new ServerMessage(this.username, myMessage.getMessage()));
 					}
 				}
 				catch (SocketException e)
@@ -114,9 +106,9 @@ public class Server extends Thread{
 				}
 				catch (EOFException e)
 				{
-					//System.err.println("EOF reached");
-					//e.printStackTrace();
-					//break;
+					System.err.println("EOF reached");
+					e.printStackTrace();
+					break;
 				}
 				catch (Exception ex)
 				{

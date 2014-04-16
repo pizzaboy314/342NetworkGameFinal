@@ -16,23 +16,18 @@ public class ClientList {
 		clients = new ArrayList<ClientObject>();
 	}
 	
-	public void userConnect(String username, Socket userSocket) {
-		ClientObject client = new ClientObject(username, userSocket);
+	public void userConnect(String username, ClientObject client) {
 		try {
-			ObjectOutputStream cout = new ObjectOutputStream(userSocket.getOutputStream());
 			//1st client
-			ObjectOutputStream out;
 			for (ClientObject cl : clients){
 				System.out.println("about to write to " + username);
-				cout.writeObject(new ServerMessage(true, cl.getUsername()));
-				cout.flush();
+				client.getObOut().writeObject(new ServerMessage(true, cl.getUsername()));
 				System.out.println("done writing to this client");
 			}
 			for (ClientObject cl : clients){
-				out = new ObjectOutputStream(cl.getSocket().getOutputStream());
 				//1st  client to new ObStream again
 				System.out.println("about to write to another client(" + cl.getUsername() + ")");
-				out.writeObject(new ServerMessage(true, username));
+				cl.getObOut().writeObject(new ServerMessage(true, username));
 				System.out.println("done writing to this client(2)");
 				//out.flush();
 				//out.close();
@@ -80,15 +75,29 @@ public class ClientList {
 		}
 	}*/
 	
-	public List<Socket> getUserSockets(List<String> usernames)
+	public ArrayList<Socket> getUserSockets(List<String> usernames)
 	{
-		List<Socket> myList = new ArrayList<Socket>();
+		ArrayList<Socket> myList = new ArrayList<Socket>();
 		for (ClientObject thisClient: clients)
 		{
 			for (String username: usernames)
 			if (thisClient.getUsername().equals(username))
 			{
 				myList.add(thisClient.getSocket());
+			}
+		}
+		return myList;
+	}
+	
+	public ArrayList<ObjectOutputStream> getUserOutStreams(List<String> usernames)
+	{
+		ArrayList<ObjectOutputStream> myList = new ArrayList<ObjectOutputStream>();
+		for (ClientObject thisClient: clients)
+		{
+			for (String username : usernames) {
+				if (thisClient.getUsername().equals(username)) {
+					myList.add(thisClient.getObOut());
+				}
 			}
 		}
 		return myList;
