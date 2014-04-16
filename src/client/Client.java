@@ -67,7 +67,8 @@ public class Client{
 					try {
 					
 						ServerMessage messageObject = (ServerMessage)in.readObject();
-						if (messageObject.getMessage() == null){
+						System.out.println(username + " received a message");
+						if (messageObject.isConnectMessage() == true){
 							panel.addUser(messageObject.getSender());
 						}
 						System.out.print(messageObject.getSender() + ": " + messageObject.getMessage() + "\n");

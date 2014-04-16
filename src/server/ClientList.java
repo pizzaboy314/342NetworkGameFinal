@@ -22,10 +22,21 @@ public class ClientList {
 			ObjectOutputStream cout = new ObjectOutputStream(userSocket.getOutputStream());
 			ObjectOutputStream out;
 			for (ClientObject cl : clients){
-				out = new ObjectOutputStream(cl.getSocket().getOutputStream());
-				out.writeObject(new ServerMessage(true, username));
+				System.out.println("about to write to " + username);
 				cout.writeObject(new ServerMessage(true, cl.getUsername()));
+				System.out.println("done writing to this client");
+				//cout.flush();
 			}
+			//cout.close();
+			for (ClientObject cl : clients){
+				out = new ObjectOutputStream(cl.getSocket().getOutputStream());
+				System.out.println("about to write to another client(" + cl.getUsername() + ")");
+				out.writeObject(new ServerMessage(true, username));
+				System.out.println("done writing to this client");
+				//out.flush();
+				//out.close();
+			}
+			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
