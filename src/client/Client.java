@@ -65,7 +65,7 @@ public class Client{
 				while(true)
 				{
 					try {
-					
+						System.out.println(username + " about to recieve");
 						ServerMessage messageObject = (ServerMessage)in.readObject();
 						System.out.println(username + " received a message");
 						if (messageObject.isConnectMessage() == true){
@@ -74,7 +74,8 @@ public class Client{
 						System.out.print(messageObject.getSender() + ": " + messageObject.getMessage() + "\n");
 					}
 					catch (Exception ex){
-						
+						ex.printStackTrace();
+						return;
 					}
 				}
 			}

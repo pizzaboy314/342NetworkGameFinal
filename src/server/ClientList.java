@@ -20,19 +20,20 @@ public class ClientList {
 		ClientObject client = new ClientObject(username, userSocket);
 		try {
 			ObjectOutputStream cout = new ObjectOutputStream(userSocket.getOutputStream());
+			//1st client
 			ObjectOutputStream out;
 			for (ClientObject cl : clients){
 				System.out.println("about to write to " + username);
 				cout.writeObject(new ServerMessage(true, cl.getUsername()));
+				cout.flush();
 				System.out.println("done writing to this client");
-				//cout.flush();
 			}
-			//cout.close();
 			for (ClientObject cl : clients){
 				out = new ObjectOutputStream(cl.getSocket().getOutputStream());
+				//1st  client to new ObStream again
 				System.out.println("about to write to another client(" + cl.getUsername() + ")");
 				out.writeObject(new ServerMessage(true, username));
-				System.out.println("done writing to this client");
+				System.out.println("done writing to this client(2)");
 				//out.flush();
 				//out.close();
 			}
