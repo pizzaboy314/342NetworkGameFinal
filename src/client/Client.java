@@ -5,9 +5,10 @@ import gui.ClientPanel;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.net.ConnectException;
 import java.net.Socket;
 import java.util.ArrayList;
+
+import javax.swing.JOptionPane;
 
 import sharedResources.*;
 
@@ -26,11 +27,10 @@ public class Client{
 			out = new ObjectOutputStream(serverInput.getOutputStream());
 			sh.start();
 		}
-		catch (ConnectException e){
-			System.err.println("Unable to connect, exiting");
-		}
 		catch (Exception e){
+			JOptionPane.showMessageDialog(pn, "Client unable to connect, exiting");
 			e.printStackTrace();
+			System.exit(0);
 		}
 	}
 
@@ -43,11 +43,10 @@ public class Client{
 			out = new ObjectOutputStream(serverInput.getOutputStream());
 			sh.start();
 		}
-		catch (ConnectException e){
-			System.err.println("Sever client unable to connect, exiting");
-		}
 		catch (Exception e){
+			JOptionPane.showMessageDialog(pn, "Unable to connect, exiting");
 			e.printStackTrace();
+			System.exit(0);
 		}
 	}
 	
@@ -75,6 +74,8 @@ public class Client{
 						System.out.print(messageObject.getSender() + ": " + messageObject.getMessage() + "\n");
 					}
 					catch (Exception ex){
+						JOptionPane.showMessageDialog(panel, "Server shutdown, closing appliation");
+						System.exit(0);
 						ex.printStackTrace();
 						return;
 					}

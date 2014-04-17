@@ -1,11 +1,7 @@
 package server;
 
-import gui.ClientPanel;
 import gui.ServerPanel;
 
-import java.io.EOFException;
-import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.InetAddress;
 import java.net.ServerSocket;
@@ -14,7 +10,8 @@ import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.List;
 
-import client.Client;
+import javax.swing.JOptionPane;
+
 import sharedResources.*;
 
 public class Server extends Thread{
@@ -30,13 +27,11 @@ public class Server extends Thread{
 		try {
 			serverSocket = new ServerSocket(0);
 		}
-		catch (IOException e)
-		{
-			e.printStackTrace();
-		}
 		catch (Exception e)
 		{
+			JOptionPane.showMessageDialog(panel, "Unrecoverablable establishing a server socket");
 			e.printStackTrace();
+			System.exit(1);
 		}
 		 try {
 			 String hostName = InetAddress.getLocalHost().getHostAddress();
@@ -44,7 +39,9 @@ public class Server extends Thread{
 			 panel.setInfo(hostName, port);
 		} catch (UnknownHostException e) {
 			// TODO Auto-generated catch block
+			JOptionPane.showMessageDialog(panel, "Unable to connet client to self");
 			e.printStackTrace();
+			System.exit(1);
 		}
 		this.start();
 	}
@@ -58,8 +55,10 @@ public class Server extends Thread{
 				ClientHandler ch = new ClientHandler(S);
 				ch.start();
 			}
-		} catch (IOException e) {
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(panel, "Unrecoverablable error in input stream");
 			e.printStackTrace();
+			System.exit(1);
 		}
 	}
 	
@@ -88,13 +87,10 @@ public class Server extends Thread{
 				System.out.println("Server gets: " + myMessage.toString());
 				clientList.userConnect(username, clObj);
 			}
-			catch (EOFException e)
-			{
+			catch (Exception e){
+				JOptionPane.showMessageDialog(panel, "Unrecoverablable error in input stream");
 				e.printStackTrace();
-			}
-			catch (Exception ex)
-			{
-				ex.printStackTrace();
+				System.exit(1);
 			}
 			while(true)
 			{ 	
@@ -109,27 +105,19 @@ public class Server extends Thread{
 				}
 				catch (SocketException e)
 				{
+					System.out.println("Disconnecting user: " + username);
 					clientList.userDisconnect(username);
-					break;
-				}
-				catch (EOFException e)
-				{
-					System.err.println("EOF reached");
-					e.printStackTrace();
 					break;
 				}
 				catch (Exception ex)
 				{
 					System.err.println("Some other error in client handler (run)");
+					JOptionPane.showMessageDialog(panel, "Unrecoverablable error in input stream");
 					ex.printStackTrace();
+					System.exit(1);
 					break;
 				}
 			}
 		}
-	}
-	
-	public static void main(String args[])
-	{
-		//Server myServer = new Server(9001, null);//TODO remove
 	}
 }

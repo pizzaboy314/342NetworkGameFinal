@@ -7,7 +7,6 @@ import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
-import javax.swing.JDialog;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -19,9 +18,9 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import server.Server;
 import client.Client;
 
+@SuppressWarnings("serial")
 public class ClientPanel extends JPanel implements ListSelectionListener, ActionListener {
 	private DefaultListModel<String> clListModel, outputModel;//list to add string
 	private Client clSocket;
@@ -32,9 +31,18 @@ public class ClientPanel extends JPanel implements ListSelectionListener, Action
 	private String myName, ip, port;
 
 	public ClientPanel() {
-		promptForConnection();
+		boolean hasConnection = false;
+		while (!hasConnection){
+			try{
+				promptForConnection();
+				clSocket = new Client(ip, Integer.parseInt(port), this);
+				hasConnection = true;
+			}catch (Exception e){
+				JOptionPane.showMessageDialog(this, "Unable to connect, retry");
+			}
+		}
 		promptForName();
-		clSocket = new Client(ip, Integer.parseInt(port), this);
+		
 		init();
 	}
 	
@@ -46,14 +54,25 @@ public class ClientPanel extends JPanel implements ListSelectionListener, Action
 	
 	private void promptForConnection(){
 		String ipadd = JOptionPane.showInputDialog("Enter IP address: ");
+		if (ipadd == null || ipadd.equals("")){
+			JOptionPane.showMessageDialog(this, "Exiting");
+			System.exit(0);
+		}
 		ip = ipadd;
 		String pt = JOptionPane.showInputDialog("Enter Port number: ");
+		if (ipadd == null || pt.equals("")){
+			JOptionPane.showMessageDialog(this, "Exiting");
+			System.exit(0);
+		}
 		port = pt;
 	}
 	
 	private void promptForName(){
-
 		String name = JOptionPane.showInputDialog("Enter Username: ");
+		if (name == null || name.equals("")){
+			JOptionPane.showMessageDialog(this, "Exiting");
+			System.exit(0);
+		}
 		myName = name;
 	}
 	
@@ -85,16 +104,16 @@ public class ClientPanel extends JPanel implements ListSelectionListener, Action
 		add(listWindow, BorderLayout.EAST);
 	}
 	
-	private void printMessage(String from, String message){
+	private synchronized void printMessage(String from, String message){
 		outputModel.addElement("["+ from + "]: " + message);
 		vertScrollBar.setValue( vertScrollBar.getMaximum() );
 	}
 	
-	public void addUser(String nm){
+	public synchronized void addUser(String nm){
 		clListModel.addElement(nm);
 	}
 
-	public void rmUser(String nm) {
+	public synchronized void rmUser(String nm) {
 		clListModel.removeElement(nm);
 	}
 	

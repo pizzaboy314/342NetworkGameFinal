@@ -6,9 +6,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
-import server.Server;
-import client.Client;
-
+@SuppressWarnings("serial")
 public class GuiLauncher extends JFrame implements Runnable{
 
 	public GuiLauncher() {
@@ -19,11 +17,11 @@ public class GuiLauncher extends JFrame implements Runnable{
 		System.out.println("Option = " + choice);
 		if (choice == 0){
 			this.add(new ServerPanel());
-			//TODO
-		} else {
+		} else if (choice == 1){
 			System.out.println("sec");
 			this.add(new ClientPanel());//TODO make 9001 a variable
-			//TODO
+		} else{
+			System.exit(0);
 		}
 		this.setPreferredSize(new Dimension(500, 500));
 		this.pack();
