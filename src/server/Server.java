@@ -23,12 +23,12 @@ public class Server extends Thread{
 	private ClientList clientList;
 	private ServerPanel panel;
 	
-	public Server (int port, ServerPanel pn)
+	public Server (ServerPanel pn)
 	{
 		panel = pn;
 		clientList = new ClientList();
 		try {
-			serverSocket = new ServerSocket(port);
+			serverSocket = new ServerSocket(0);
 		}
 		catch (IOException e)
 		{
@@ -40,7 +40,8 @@ public class Server extends Thread{
 		}
 		 try {
 			 String hostName = InetAddress.getLocalHost().getHostAddress();
-			 panel.setInfo(hostName, 9001);
+			 int port = serverSocket.getLocalPort();
+			 panel.setInfo(hostName, port);
 		} catch (UnknownHostException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -129,6 +130,6 @@ public class Server extends Thread{
 	
 	public static void main(String args[])
 	{
-		Server myServer = new Server(9001, null);//TODO remove
+		//Server myServer = new Server(9001, null);//TODO remove
 	}
 }

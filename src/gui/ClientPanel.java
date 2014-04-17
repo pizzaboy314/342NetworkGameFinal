@@ -29,12 +29,26 @@ public class ClientPanel extends JPanel implements ListSelectionListener, Action
 	private JTextField input;
 	private JScrollPane listWindow, outputWindow;
 	private JScrollBar vertScrollBar;
-	private String myName;
+	private String myName, ip, port;
 
-	public ClientPanel(int port) {
+	public ClientPanel() {
+		promptForConnection();
 		promptForName();
-		clSocket = new Client(port, this);
+		clSocket = new Client(ip, Integer.parseInt(port), this);
 		init();
+	}
+	
+	public ClientPanel(int pt) {//for server
+		promptForName();
+		clSocket = new Client(pt, this);
+		init();
+	}
+	
+	private void promptForConnection(){
+		String ipadd = JOptionPane.showInputDialog("Enter IP address: ");
+		ip = ipadd;
+		String pt = JOptionPane.showInputDialog("Enter Port number: ");
+		port = pt;
 	}
 	
 	private void promptForName(){
@@ -97,7 +111,8 @@ public class ClientPanel extends JPanel implements ListSelectionListener, Action
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == input){
 			printMessage("ME", input.getText());
-			clSocket.sendMessage(input.getText(), "");
+			for (String nm: cList.getSelectedValuesList())
+				clSocket.sendMessage(input.getText(), nm);
 			input.setText("");
 		}
 		

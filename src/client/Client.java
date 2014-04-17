@@ -16,8 +16,25 @@ public class Client{
 	private String username;
 	private ObjectOutputStream out;
 	private ClientPanel panel;
+	
+	public Client(String ip, int port, ClientPanel pn)
+	{
+		panel = pn;
+		try {
+			serverInput = new Socket(ip, port);
+			ServerHandler sh = new ServerHandler();
+			out = new ObjectOutputStream(serverInput.getOutputStream());
+			sh.start();
+		}
+		catch (ConnectException e){
+			System.err.println("Unable to connect, exiting");
+		}
+		catch (Exception e){
+			e.printStackTrace();
+		}
+	}
 
-	public Client(int port, ClientPanel pn)
+	public Client(int port, ClientPanel pn)//for server
 	{
 		panel = pn;
 		try {
@@ -27,7 +44,7 @@ public class Client{
 			sh.start();
 		}
 		catch (ConnectException e){
-			System.err.println("Unable to connect, exiting");
+			System.err.println("Sever client unable to connect, exiting");
 		}
 		catch (Exception e){
 			e.printStackTrace();
@@ -69,9 +86,11 @@ public class Client{
 					try {
 						in.close();
 					} catch (Exception e) {
-						ex.printStackTrace();
+						System.err.println("Error while trying to close input stream");
+						e.printStackTrace();
 					}
 				}
+				System.err.println("Error while reading input stream");
 				ex.printStackTrace();
 			}
 		}

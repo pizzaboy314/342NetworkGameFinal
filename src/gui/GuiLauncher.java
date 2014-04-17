@@ -22,7 +22,7 @@ public class GuiLauncher extends JFrame implements Runnable{
 			//TODO
 		} else {
 			System.out.println("sec");
-			this.add(new ClientPanel(9001));//TODO make 9001 a variable
+			this.add(new ClientPanel());//TODO make 9001 a variable
 			//TODO
 		}
 		this.setPreferredSize(new Dimension(500, 500));

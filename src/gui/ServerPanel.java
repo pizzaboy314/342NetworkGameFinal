@@ -17,7 +17,7 @@ public class ServerPanel extends JPanel{
 	private JLabel connectionInfoPanel;
 
 	public ServerPanel() {
-		sv = new Server(9001, this);
+		sv = new Server(this);
 	}
 	
 	private void createGUI(int port){
