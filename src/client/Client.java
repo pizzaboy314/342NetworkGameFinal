@@ -12,12 +12,27 @@ import javax.swing.JOptionPane;
 
 import sharedResources.*;
 
+/**
+ * Handles the client side of the
+ * communication
+ * 
+ * @author Ian Swift
+ */
 public class Client{
 	private Socket serverInput;
 	private String username;
 	private ObjectOutputStream out;
 	private ClientPanel panel;
 	
+	/**
+	 * Establish a connect to the IP and
+	 * port provided. Also receives the panel to
+	 * handle the GUI events 
+	 * 
+	 * @param ip IP in string form
+	 * @param port Port number as an int
+	 * @param pn ClientPanel to use
+	 */
 	public Client(String ip, int port, ClientPanel pn)
 	{
 		panel = pn;
@@ -34,6 +49,12 @@ public class Client{
 		}
 	}
 
+	/**
+	 * Assumes local host for this connection
+	 * 
+	 * @param port Port number to use
+	 * @param pn ClientPanel to use
+	 */
 	public Client(int port, ClientPanel pn)//for server
 	{
 		panel = pn;
@@ -52,7 +73,9 @@ public class Client{
 	
 	private class ServerHandler implements Runnable{
 		private Thread t;
-		
+		/**
+		 * Actual code to run
+		 */
 		public void run()
 		{
 			ObjectInputStream in = null;
@@ -69,7 +92,7 @@ public class Client{
 						}else if (messageObject.isDisconnectMessage()){
 							panel.rmUser(messageObject.getSender());
 						}else {
-							panel.receiveMessage(messageObject.getSender(), messageObject.getMessage());
+							panel.printMessage(messageObject.getSender(), messageObject.getMessage());
 						}
 						System.out.print(messageObject.getSender() + ": " + messageObject.getMessage() + "\n");
 					}
@@ -93,8 +116,14 @@ public class Client{
 				}
 				System.err.println("Error while reading input stream");
 				ex.printStackTrace();
+				JOptionPane.showMessageDialog(panel, "Unexpectedly lost connection");
+				System.exit(0);
 			}
 		}
+		
+		/**
+		 * Starts the server handler
+		 */
 		public void start()
 		{
 			t = new Thread(this, "listen");
@@ -102,20 +131,33 @@ public class Client{
 		}
 	}
 	
+	/**
+	 * Send and set the name of this client
+	 * @param nm Name of the client
+	 */
 	public void sendName(String nm){
 		username = nm;
 		try {
 			out.writeObject(new ClientMessage(null, username, ""));
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 	
+	/**
+	 * Get the ObjectOutputStream to use with this client
+	 * @return The stream
+	 */
 	public ObjectOutputStream getObjOutStream(){
 		return out;
 	}
 	
+	/**
+	 * Sends a standard message
+	 * 
+	 * @param str Message to send
+	 * @param toPerson The sender
+	 */
 	public void sendMessage(String str, String toPerson){
 		ArrayList<String> recipients = new ArrayList<String>();
 		if (toPerson != null && !toPerson.equals(""))

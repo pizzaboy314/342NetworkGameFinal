@@ -14,12 +14,22 @@ import javax.swing.JOptionPane;
 
 import sharedResources.*;
 
+/**
+ * Establishes the server for the clients
+ * 
+ * @author Ian Swift
+ */
 public class Server extends Thread{
 	
 	private ServerSocket serverSocket;
 	private ClientList clientList;
 	private ServerPanel panel;
 	
+	/**
+	 * Establishes the threads to handle the clients
+	 * 
+	 * @param pn Sever panel to send output to
+	 */
 	public Server (ServerPanel pn)
 	{
 		panel = pn;
@@ -38,7 +48,6 @@ public class Server extends Thread{
 			 int port = serverSocket.getLocalPort();
 			 panel.setInfo(hostName, port);
 		} catch (UnknownHostException e) {
-			// TODO Auto-generated catch block
 			JOptionPane.showMessageDialog(panel, "Unable to connet client to self");
 			e.printStackTrace();
 			System.exit(1);
@@ -46,6 +55,9 @@ public class Server extends Thread{
 		this.start();
 	}
 	
+	/**
+	 * Runs the thread to accept new connections
+	 */
 	@Override
 	public void run(){
 		try {
@@ -62,22 +74,40 @@ public class Server extends Thread{
 		}
 	}
 	
+	/**
+	 * Handles the connect with the client
+	 * 
+	 * @author Ian Swift
+	 *
+	 */
 	private class ClientHandler implements Runnable{
 		private Thread t;
 		private ClientObject clObj;
 		private String username;
 		
+		/**
+		 * Create a ClientObject that establishes the 
+		 * in/out streams
+		 * 
+		 * @param mySocket Socket to the client connection
+		 */
 		public ClientHandler(Socket mySocket)
 		{
 			clObj = new ClientObject("", mySocket);
 		}
 		
+		/**
+		 * Start this thread
+		 */
 		public void start()
 		{
 			t = new Thread(this);
 			t.start();
 		}
 		
+		/**
+		 * Allow this dedicated thread to handle input from this client
+		 */
 		public void run()
 		{
 			try{

@@ -25,13 +25,19 @@ public class ServerPanel extends JPanel{
 	private JTextField connectionInfoPanel;
 
 	/**
-	 * Establish the connection
+	 * Establishes the server
 	 * @param p
 	 */
 	public ServerPanel() {
 		new Server(this);
 	}
 	
+	/**
+	 * Creates the GUI and creates an
+	 * area to show the server info
+	 * 
+	 * @param port Port to use
+	 */
 	private void createGUI(int port){
 		cPanel = new ClientPanel(port);
 		infoPanel = new JPanel();
@@ -45,6 +51,11 @@ public class ServerPanel extends JPanel{
 		this.add(cPanel, BorderLayout.CENTER);
 	}
 	
+	/**
+	 * Updates the GUI for the server information
+	 * @param ip IP for connection
+	 * @param port Port to be used
+	 */
 	public void setInfo(String ip, int port){
 		createGUI(port);
 		ipAddress = ip;

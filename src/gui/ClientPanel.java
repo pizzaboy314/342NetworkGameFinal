@@ -20,6 +20,12 @@ import javax.swing.event.ListSelectionListener;
 
 import client.Client;
 
+/**
+ * The client panel to be added to a frame, handles the input and the output
+ * 
+ * @author Shanon Mathai
+ *
+ */
 @SuppressWarnings("serial")
 public class ClientPanel extends JPanel implements ListSelectionListener, ActionListener {
 	private DefaultListModel<String> clListModel, outputModel;//list to add string
@@ -46,12 +52,20 @@ public class ClientPanel extends JPanel implements ListSelectionListener, Action
 		init();
 	}
 	
+	/**
+	 * Establishes the connection for the panel to use
+	 * for input and output
+	 * @param pt
+	 */
 	public ClientPanel(int pt) {//for server
 		promptForName();
 		clSocket = new Client(pt, this);
 		init();
 	}
 	
+	/**
+	 * Prompt the user for the connection
+	 */
 	private void promptForConnection(){
 		String ipadd = JOptionPane.showInputDialog("Enter IP address: ");
 		if (ipadd == null || ipadd.equals("")){
@@ -67,6 +81,9 @@ public class ClientPanel extends JPanel implements ListSelectionListener, Action
 		port = pt;
 	}
 	
+	/**
+	 * Prompt the user for their name
+	 */
 	private void promptForName(){
 		String name = JOptionPane.showInputDialog("Enter Username: ");
 		if (name == null || name.equals("")){
@@ -76,6 +93,9 @@ public class ClientPanel extends JPanel implements ListSelectionListener, Action
 		myName = name;
 	}
 	
+	/**
+	 * Initializes the variables to use for the connection
+	 */
 	private void init(){
 		setLayout(new BorderLayout());
 		clSocket.sendName(myName);
@@ -104,23 +124,32 @@ public class ClientPanel extends JPanel implements ListSelectionListener, Action
 		add(listWindow, BorderLayout.EAST);
 	}
 	
-	private synchronized void printMessage(String from, String message){
+	/** Display the formated message 
+	 * 
+	 * @param from Sender of the message
+	 * @param message Message to be sent
+	 */
+	public synchronized void printMessage(String from, String message){
 		outputModel.addElement("["+ from + "]: " + message);
 		vertScrollBar.setValue( vertScrollBar.getMaximum() );
 	}
 	
+	/**
+	 * Adds the user to the side panel
+	 * @param nm Name of new user
+	 */
 	public synchronized void addUser(String nm){
 		clListModel.addElement(nm);
 	}
 
+	/**
+	 * Removes the user from the side panel
+	 * @param nm Name of the user to remove
+	 */
 	public synchronized void rmUser(String nm) {
 		clListModel.removeElement(nm);
 	}
 	
-	public void receiveMessage(String nm, String message) {
-		printMessage(nm, message);
-	}
-
 	@Override
 	public void valueChanged(ListSelectionEvent e) {
 		//Selection events
