@@ -7,9 +7,11 @@ import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
+import java.net.UnknownHostException;
 import java.util.List;
 
 import client.Client;
@@ -36,7 +38,13 @@ public class Server extends Thread{
 		{
 			e.printStackTrace();
 		}
-		panel.setInfo(serverSocket.getInetAddress().getCanonicalHostName(), 9001);
+		 try {
+			 String hostName = InetAddress.getLocalHost().getHostAddress();
+			 panel.setInfo(hostName, 9001);
+		} catch (UnknownHostException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		this.start();
 	}
 	

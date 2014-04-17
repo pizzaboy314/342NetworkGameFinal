@@ -48,8 +48,10 @@ public class Client{
 						System.out.println(username + " about to recieve");
 						ServerMessage messageObject = (ServerMessage)in.readObject();
 						System.out.println(username + " received a message");
-						if (messageObject.isConnectMessage() == true){
+						if (messageObject.isConnectMessage()){
 							panel.addUser(messageObject.getSender());
+						}else if (messageObject.isDisconnectMessage()){
+							panel.rmUser(messageObject.getSender());
 						}
 						System.out.print(messageObject.getSender() + ": " + messageObject.getMessage() + "\n");
 					}

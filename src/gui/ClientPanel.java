@@ -73,6 +73,10 @@ public class ClientPanel extends JPanel implements ListSelectionListener, Action
 		clListModel.addElement(nm);
 	}
 
+	public void rmUser(String nm) {
+		clListModel.removeElement(nm);
+	}
+
 	@Override
 	public void valueChanged(ListSelectionEvent e) {
 		//Selection events
@@ -87,5 +91,4 @@ public class ClientPanel extends JPanel implements ListSelectionListener, Action
 		}
 		
 	}
-
 }

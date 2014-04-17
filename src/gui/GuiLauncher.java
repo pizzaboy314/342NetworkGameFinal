@@ -18,7 +18,6 @@ public class GuiLauncher extends JFrame implements Runnable{
 				JOptionPane.YES_NO_OPTION);
 		System.out.println("Option = " + choice);
 		if (choice == 0){
-			System.out.println("first");
 			this.add(new ServerPanel());
 			//TODO
 		} else {

@@ -69,6 +69,13 @@ public class ClientList {
 	public ArrayList<ObjectOutputStream> getUserOutStreams(List<String> usernames)
 	{
 		ArrayList<ObjectOutputStream> myList = new ArrayList<ObjectOutputStream>();
+		if (usernames == null || usernames.isEmpty()){
+			for (ClientObject thisClient: clients)
+			{
+				myList.add(thisClient.getObOut());
+			} 
+			return myList;
+		}
 		for (ClientObject thisClient: clients)
 		{
 			for (String username : usernames) {
