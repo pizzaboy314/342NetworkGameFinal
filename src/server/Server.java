@@ -12,9 +12,8 @@ import java.net.Socket;
 import java.net.SocketException;
 import java.util.List;
 
-import sharedResources.ClientMessage;
-import sharedResources.ClientObject;
-import sharedResources.ServerMessage;
+import client.Client;
+import sharedResources.*;
 
 public class Server extends Thread{
 	
@@ -37,6 +36,7 @@ public class Server extends Thread{
 		{
 			e.printStackTrace();
 		}
+		panel.setInfo(serverSocket.getInetAddress().getCanonicalHostName(), 9001);
 		this.start();
 	}
 	
@@ -50,7 +50,6 @@ public class Server extends Thread{
 				ch.start();
 			}
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

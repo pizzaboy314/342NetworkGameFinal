@@ -9,8 +9,7 @@ import java.net.ConnectException;
 import java.net.Socket;
 import java.util.ArrayList;
 
-import sharedResources.ClientMessage;
-import sharedResources.ServerMessage;
+import sharedResources.*;
 
 public class Client{
 	private Socket serverInput;
@@ -26,25 +25,6 @@ public class Client{
 			ServerHandler sh = new ServerHandler();
 			out = new ObjectOutputStream(serverInput.getOutputStream());
 			sh.start();
-			/*
-			Scanner sc = new Scanner(System.in);
-			out = new ObjectOutputStream(serverInput.getOutputStream());
-			System.out.print("Username: ");
-			username = sc.nextLine();
-			
-			out.writeObject(new ClientMessage(null, username, ""));
-			while(true)
-			{
-				System.out.print("Message: ");
-				String myMessage = sc.nextLine();
-				System.out.print("Recipient: ");
-				String myRecipient = sc.nextLine();
-				ArrayList<String> recipients = new ArrayList<String>();
-				recipients.add(myRecipient);
-				out.writeObject(new ClientMessage(recipients, username, myMessage));
-				
-			}
-			*/
 		}
 		catch (ConnectException e){
 			System.err.println("Unable to connect, exiting");

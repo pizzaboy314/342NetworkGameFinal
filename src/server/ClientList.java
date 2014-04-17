@@ -2,7 +2,6 @@ package server;
 
 import java.util.*;
 import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.*;
 
@@ -18,23 +17,14 @@ public class ClientList {
 	
 	public void userConnect(String username, ClientObject client) {
 		try {
-			//1st client
 			for (ClientObject cl : clients){
-				System.out.println("about to write to " + username);
 				client.getObOut().writeObject(new ServerMessage(true, cl.getUsername()));
-				System.out.println("done writing to this client");
 			}
 			for (ClientObject cl : clients){
-				//1st  client to new ObStream again
-				System.out.println("about to write to another client(" + cl.getUsername() + ")");
 				cl.getObOut().writeObject(new ServerMessage(true, username));
-				System.out.println("done writing to this client(2)");
-				//out.flush();
-				//out.close();
 			}
 			
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		clients.add(client);
@@ -52,28 +42,15 @@ public class ClientList {
 			else
 			{
 				try{
-					ObjectOutputStream out = new ObjectOutputStream(thisClient.getSocket().getOutputStream());
-					out.writeObject(new ServerMessage(false, _username));
+					thisClient.getObOut().writeObject(new ServerMessage(false, _username));
 				}
 				catch (Exception ex)
 				{
+					System.err.println("Error in client disconnect");
 				}
 			}
 		}
 	}
-	
-	/*
-	public void userDisconnect(Socket _userSocket)
-	{
-		for (ClientObject thisClient: clients)
-		{
-			if (thisClient.getSocket() == _userSocket)
-			{
-				clients.remove(thisClient);
-				return;
-			}
-		}
-	}*/
 	
 	public ArrayList<Socket> getUserSockets(List<String> usernames)
 	{

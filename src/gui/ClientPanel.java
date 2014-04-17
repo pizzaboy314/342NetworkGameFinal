@@ -18,6 +18,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import server.Server;
 import client.Client;
 
 public class ClientPanel extends JPanel implements ListSelectionListener, ActionListener {
@@ -26,12 +27,23 @@ public class ClientPanel extends JPanel implements ListSelectionListener, Action
 	private JList<String> cList, oList;//for display count
 	private JTextField input;
 	private JScrollPane listWindow, outputWindow;
+	private String myName;
 
 	public ClientPanel(int port) {
-		setLayout(new BorderLayout());
-		String name = JOptionPane.showInputDialog("Enter Username: ");
+		promptForName();
 		clSocket = new Client(port, this);
-		clSocket.sendName(name);
+		init();
+	}
+	
+	private void promptForName(){
+
+		String name = JOptionPane.showInputDialog("Enter Username: ");
+		myName = name;
+	}
+	
+	private void init(){
+		setLayout(new BorderLayout());
+		clSocket.sendName(myName);
 		clListModel = new DefaultListModel<String>();
 		outputModel = new DefaultListModel<String>();
 		
