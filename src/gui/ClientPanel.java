@@ -11,6 +11,7 @@ import javax.swing.JDialog;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
@@ -27,6 +28,7 @@ public class ClientPanel extends JPanel implements ListSelectionListener, Action
 	private JList<String> cList, oList;//for display count
 	private JTextField input;
 	private JScrollPane listWindow, outputWindow;
+	private JScrollBar vertScrollBar;
 	private String myName;
 
 	public ClientPanel(int port) {
@@ -46,7 +48,6 @@ public class ClientPanel extends JPanel implements ListSelectionListener, Action
 		clSocket.sendName(myName);
 		clListModel = new DefaultListModel<String>();
 		outputModel = new DefaultListModel<String>();
-		
 		cList = new JList<String>(clListModel);
 		cList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		cList.setVisibleRowCount(10);
@@ -62,11 +63,17 @@ public class ClientPanel extends JPanel implements ListSelectionListener, Action
 		ioPanel.setBorder(new EmptyBorder(3, 3, 3, 3));
 		input = new JTextField();
 		input.addActionListener(this);
+		vertScrollBar = outputWindow.getVerticalScrollBar();
 		
 		ioPanel.add(outputWindow, BorderLayout.CENTER);
 		ioPanel.add(input, BorderLayout.SOUTH);
 		add(ioPanel, BorderLayout.CENTER);
 		add(listWindow, BorderLayout.EAST);
+	}
+	
+	private void printMessage(String from, String message){
+		outputModel.addElement("["+ from + "]: " + message);
+		vertScrollBar.setValue( vertScrollBar.getMaximum() );
 	}
 	
 	public void addUser(String nm){
@@ -75,6 +82,10 @@ public class ClientPanel extends JPanel implements ListSelectionListener, Action
 
 	public void rmUser(String nm) {
 		clListModel.removeElement(nm);
+	}
+	
+	public void receiveMessage(String nm, String message) {
+		printMessage(nm, message);
 	}
 
 	@Override
@@ -85,7 +96,7 @@ public class ClientPanel extends JPanel implements ListSelectionListener, Action
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == input){
-			outputModel.addElement(input.getText());
+			printMessage("ME", input.getText());
 			clSocket.sendMessage(input.getText(), "");
 			input.setText("");
 		}

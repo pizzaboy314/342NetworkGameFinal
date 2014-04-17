@@ -52,6 +52,8 @@ public class Client{
 							panel.addUser(messageObject.getSender());
 						}else if (messageObject.isDisconnectMessage()){
 							panel.rmUser(messageObject.getSender());
+						}else {
+							panel.receiveMessage(messageObject.getSender(), messageObject.getMessage());
 						}
 						System.out.print(messageObject.getSender() + ": " + messageObject.getMessage() + "\n");
 					}
@@ -90,9 +92,14 @@ public class Client{
 		}
 	}
 	
+	public ObjectOutputStream getObjOutStream(){
+		return out;
+	}
+	
 	public void sendMessage(String str, String toPerson){
 		ArrayList<String> recipients = new ArrayList<String>();
-		recipients.add(toPerson);
+		if (toPerson != null && !toPerson.equals(""))
+			recipients.add(toPerson);
 		try {
 			out.writeObject(new ClientMessage(recipients, username, str));
 		} catch (IOException e) {
