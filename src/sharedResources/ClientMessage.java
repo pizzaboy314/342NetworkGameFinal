@@ -2,6 +2,13 @@ package sharedResources;
 
 import java.util.ArrayList;
 
+/**
+ * Encapsulate the data need to message other clients
+ * when sending information to the server
+ * 
+ * @author Ian Swift
+ *
+ */
 public class ClientMessage extends ServerMessage{
 
 	private static final long serialVersionUID = 1824338017583746179L;

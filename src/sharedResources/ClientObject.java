@@ -5,6 +5,13 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.net.Socket;
 
+/**
+ * Encapsulates the client's name, socket, and 
+ * input/output object streams
+ * 
+ * @author Ian Swift
+ *
+ */
 public class ClientObject implements Serializable {
 	
 	private static final long serialVersionUID = 1L;

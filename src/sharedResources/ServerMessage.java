@@ -2,6 +2,13 @@ package sharedResources;
 
 import java.io.Serializable;
 
+/**
+ * Encapsulates the message sent from the
+ * server to the client
+ * 
+ * @author Ian Swift
+ *
+ */
 public class ServerMessage implements Serializable {
 	
 	private static final long serialVersionUID = 8390697074092621636L;
@@ -50,7 +57,7 @@ public class ServerMessage implements Serializable {
 	/**
 	 * Getter for this message's sender.
 	 * 
-	 * @return
+	 * @return Username of sender
 	 */
 	public String getSender()
 	{
@@ -60,7 +67,7 @@ public class ServerMessage implements Serializable {
 	/**
 	 * Getter for this message's string message.
 	 * 
-	 * @return
+	 * @return String that represents the message
 	 */
 	public String getMessage()
 	{
@@ -70,7 +77,7 @@ public class ServerMessage implements Serializable {
 	/**
 	 * Returns whether or not this message represents a connection.
 	 * 
-	 * @return
+	 * @return True if a connect message
 	 */
 	public boolean isConnectMessage()
 	{
@@ -80,7 +87,7 @@ public class ServerMessage implements Serializable {
 	/**
 	 * Returns whether or not this message represents a disconnection.
 	 * 
-	 * @return
+	 * @return True if is a disconnect message
 	 */
 	public boolean isDisconnectMessage()
 	{
