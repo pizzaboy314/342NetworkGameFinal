@@ -1,18 +1,31 @@
 package sharedResources;
 
-import java.util.*;
+import java.util.ArrayList;
 
 public class ClientMessage extends ServerMessage{
 
 	private static final long serialVersionUID = 1824338017583746179L;
 	private ArrayList<String> destinations;
 	
+	/**
+	 * Constructor for this class. Takes in a list of network locations, the
+	 * origin client's username, and the message being sent.
+	 * 
+	 * @param _destinations
+	 * @param _username
+	 * @param _message
+	 */
 	public ClientMessage(ArrayList<String> _destinations, String _username, String _message)
 	{
 		super(_username, _message);
 		destinations = _destinations;
 	}
 	
+	/**
+	 * Getter for this message's network destinations.
+	 * 
+	 * @return
+	 */
 	public ArrayList<String> getDestinations()
 	{
 		return destinations;

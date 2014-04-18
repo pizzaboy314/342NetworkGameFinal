@@ -3,7 +3,7 @@ package sharedResources;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
-import java.net.*;
+import java.net.Socket;
 
 public class ClientObject implements Serializable {
 	
@@ -13,6 +13,13 @@ public class ClientObject implements Serializable {
 	private ObjectInputStream in;
 	private ObjectOutputStream out;
 
+	/**
+	 * Constructor for this class. Takes in the user's name and the socket for
+	 * their connection.
+	 * 
+	 * @param _username
+	 * @param _userSocket
+	 */
 	public ClientObject(String _username, Socket _userSocket) {
 		username = _username;
 		userSocket = _userSocket;
@@ -24,22 +31,47 @@ public class ClientObject implements Serializable {
 		}
 	}
 	
+	/**
+	 * Setter for this client's username.
+	 * 
+	 * @param nm
+	 */
 	public void setName(String nm){
 		username = nm;
 	}
 
+	/**
+	 * Getter for this client's username.
+	 * 
+	 * @return
+	 */
 	public String getUsername() {
 		return username;
 	}
 
+	/**
+	 * Getter for this client's socket.
+	 * 
+	 * @return
+	 */
 	public Socket getSocket() {
 		return userSocket;
 	}
 	
+	/**
+	 * Getter for this client's input stream.
+	 * 
+	 * @return
+	 */
 	public ObjectInputStream getObIn(){
 		return in;
 	}
 	
+	/**
+	 * Getter for this client's output stream.
+	 * 
+	 * @return
+	 */
 	public ObjectOutputStream getObOut(){
 		return out;
 	}
