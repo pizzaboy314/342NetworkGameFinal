@@ -50,7 +50,7 @@ public class ClientObject implements Serializable {
 	/**
 	 * Getter for this client's username.
 	 * 
-	 * @return
+	 * @return Username of this object
 	 */
 	public String getUsername() {
 		return username;
@@ -59,7 +59,7 @@ public class ClientObject implements Serializable {
 	/**
 	 * Getter for this client's socket.
 	 * 
-	 * @return
+	 * @return The socket
 	 */
 	public Socket getSocket() {
 		return userSocket;
@@ -68,7 +68,7 @@ public class ClientObject implements Serializable {
 	/**
 	 * Getter for this client's input stream.
 	 * 
-	 * @return
+	 * @return ObjectInputStream for this object
 	 */
 	public ObjectInputStream getObIn(){
 		return in;
@@ -77,7 +77,7 @@ public class ClientObject implements Serializable {
 	/**
 	 * Getter for this client's output stream.
 	 * 
-	 * @return
+	 * @return ObjectOutputStream
 	 */
 	public ObjectOutputStream getObOut(){
 		return out;

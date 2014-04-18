@@ -26,7 +26,6 @@ public class ServerPanel extends JPanel{
 
 	/**
 	 * Establishes the server
-	 * @param p
 	 */
 	public ServerPanel() {
 		new Server(this);

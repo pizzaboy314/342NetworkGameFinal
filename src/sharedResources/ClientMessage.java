@@ -31,7 +31,7 @@ public class ClientMessage extends ServerMessage{
 	/**
 	 * Getter for this message's network destinations.
 	 * 
-	 * @return
+	 * @return Get the list of usernames
 	 */
 	public ArrayList<String> getDestinations()
 	{
