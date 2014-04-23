@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.net.*;
 
-import sharedResources.*;
+import sharedNetResources.*;
 
 /**
  * Allows specific operations to be 

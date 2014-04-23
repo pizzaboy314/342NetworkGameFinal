@@ -18,7 +18,7 @@ import javax.swing.SwingUtilities;
  *
  */
 @SuppressWarnings("serial")
-public class GuiLauncher extends JFrame implements Runnable, ActionListener{
+public class MainLauncher extends JFrame implements Runnable, ActionListener{
 
 	private JMenuItem help;
 	private JMenuItem about;
@@ -31,7 +31,7 @@ public class GuiLauncher extends JFrame implements Runnable, ActionListener{
 	 * server or will they be a client and initializes accordingly
 	 * and adds teh menu bar
 	 */
-	public GuiLauncher() {
+	public MainLauncher() {
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		JMenu infoMenu = new JMenu("Menu");
 		help = infoMenu.add("Help");
@@ -49,7 +49,7 @@ public class GuiLauncher extends JFrame implements Runnable, ActionListener{
 			this.add(new ServerPanel());
 		} else if (choice == 1){
 			System.out.println("sec");
-			this.add(new ClientPanel());//TODO make 9001 a variable
+			this.add(new GamePanel());//TODO make 9001 a variable
 		} else{
 			System.exit(0);
 		}
@@ -63,7 +63,7 @@ public class GuiLauncher extends JFrame implements Runnable, ActionListener{
 	 * @param args Command line arguments (unused)
 	 */
 	public static void main(String[] args) {
-		SwingUtilities.invokeLater(new GuiLauncher());
+		SwingUtilities.invokeLater(new MainLauncher());
 	}
 
 	/**

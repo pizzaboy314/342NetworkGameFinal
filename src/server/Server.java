@@ -12,7 +12,7 @@ import java.util.List;
 
 import javax.swing.JOptionPane;
 
-import sharedResources.*;
+import sharedNetResources.*;
 
 /**
  * Establishes the server for the clients

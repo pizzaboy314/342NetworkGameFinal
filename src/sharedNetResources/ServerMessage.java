@@ -1,4 +1,4 @@
-package sharedResources;
+package sharedNetResources;
 
 import java.io.Serializable;
 

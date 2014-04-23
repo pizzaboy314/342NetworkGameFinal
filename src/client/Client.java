@@ -1,6 +1,6 @@
 package client;
 
-import gui.ClientPanel;
+import gui.GamePanel;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
-import sharedResources.*;
+import sharedNetResources.*;
 
 /**
  * Handles the client side of the
@@ -22,7 +22,7 @@ public class Client{
 	private Socket serverInput;
 	private String username;
 	private ObjectOutputStream out;
-	private ClientPanel panel;
+	private GamePanel panel;
 	
 	/**
 	 * Establish a connect to the IP and
@@ -33,7 +33,7 @@ public class Client{
 	 * @param port Port number as an int
 	 * @param pn ClientPanel to use
 	 */
-	public Client(String ip, int port, ClientPanel pn)
+	public Client(String ip, int port, GamePanel pn)
 	{
 		panel = pn;
 		try {
@@ -55,7 +55,7 @@ public class Client{
 	 * @param port Port number to use
 	 * @param pn ClientPanel to use
 	 */
-	public Client(int port, ClientPanel pn)//for server
+	public Client(int port, GamePanel pn)//for server
 	{
 		panel = pn;
 		try {
