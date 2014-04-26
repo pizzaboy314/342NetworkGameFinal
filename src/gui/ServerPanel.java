@@ -17,7 +17,7 @@ import server.Server;
  */
 @SuppressWarnings("serial")
 public class ServerPanel extends JPanel{
-	private GamePanel cPanel;
+	private ClientPanel cPanel;
 	//private Server sv;
 	private JPanel infoPanel;
 	private String ipAddress;
@@ -38,7 +38,7 @@ public class ServerPanel extends JPanel{
 	 * @param port Port to use
 	 */
 	private void createGUI(int port){
-		cPanel = new GamePanel(port);
+		cPanel = new ClientPanel(port);
 		infoPanel = new JPanel();
 		connectionInfoPanel = new JTextField();
 		connectionInfoPanel.setText("Connecting");
