@@ -1,7 +1,7 @@
 import java.io.*;
 import java.awt.*;
 import java.awt.event.*;
-
+import java.util.*;
 import javax.swing.*;
 
 public class ClientInterface extends JFrame implements ActionListener {
@@ -9,12 +9,15 @@ public class ClientInterface extends JFrame implements ActionListener {
 	static CardPile deck, discardPile;
 	static Playerhand john;
 	
+	ArrayList<String> phaseText = new ArrayList<String>();
+	
 	// GUI items
 	JMenuBar mBar;	
-	JButton drawFromDeckButton, drawFromDiscardButton, abtButton, phaseCheck;
+	JButton drawFromDeckButton, drawFromDiscardButton, abtButton;
+	public JButton phaseCheck;
 	JButton button1, button2, button3, button4, button5, button6, button7, button8, button9, button10, button11;
-	JTextArea cardsHistory, discardHistory;
-	JLabel handLabel, discardLabel;
+	JTextArea cardsHistory, discardHistory, phaseHistory;
+	JLabel handLabel, discardLabel, phaseLabel;
 	
 	// This creates abtMenu when the abtButton is clicked on
 	private static void createAbtMenu() throws IOException {
@@ -59,9 +62,12 @@ public class ClientInterface extends JFrame implements ActionListener {
 	    JPanel gamePanel = new JPanel ();
 	    JPanel textPanel = new JPanel ();
 	    JPanel discardPanel = new JPanel ();
+	    JPanel phasePanel = new JPanel ();
 	    gamePanel.setLayout (new GridLayout (4, 2));
 	    textPanel.setLayout(new GridLayout (2,2));
-	    container.add(gamePanel, BorderLayout.CENTER);
+	    phasePanel.setLayout(new GridLayout(2,2));
+	    container.add(gamePanel, BorderLayout.EAST);
+	    container.add(phasePanel, BorderLayout.CENTER);
 	    container.add(textPanel, BorderLayout.WEST);
 	    container.add(discardPanel, BorderLayout.SOUTH);
 	    mBar = new JMenuBar();
@@ -98,6 +104,9 @@ public class ClientInterface extends JFrame implements ActionListener {
 	    
 	    discardHistory = new JTextArea( 10, 10 );
 	    discardHistory.setEditable(false);
+	    
+	    phaseHistory = new JTextArea(10, 10);
+	    phaseHistory.setEditable(false);
 	    
 	    button1 = new JButton("1");
 	    button1.setEnabled(true);
@@ -172,9 +181,12 @@ public class ClientInterface extends JFrame implements ActionListener {
 	    textPanel.add(discardLabel);
 	    textPanel.add(new JScrollPane(cardsHistory));
 	    textPanel.add(new JScrollPane(discardHistory));
+	    phaseLabel = new JLabel("Current Phases: ");
+	    phasePanel.add(phaseLabel);
+	    phasePanel.add(new JScrollPane(phaseHistory));
 	    
 	    pack();
-	    setSize( 550, 500 );
+	    setSize( 900, 500 );
 	    setVisible( true );
 	}
 	
@@ -193,6 +205,13 @@ public class ClientInterface extends JFrame implements ActionListener {
 	
 	public static ClientInterface c = new ClientInterface();
 	
+	public void updatePhaseHistory(){
+		phaseHistory.setText(null);
+		for(int i = 0; i < phaseText.size(); i++){
+			phaseHistory.append(phaseText.get(i));
+		}
+	}
+	
 	public static void main(String[] args) {
 		c.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 
@@ -200,13 +219,12 @@ public class ClientInterface extends JFrame implements ActionListener {
 		 
 		 discardPile = new CardPile();
 		
-		 john = new Playerhand("John");
+		 john = new Playerhand("John", 0);
 		
 		// give player 'John' hand of 10 cards
 		for(int i = 0; i < 10; i++) {
 			john.drawCard(deck.drawCard());
 		}
-				
 		john.printhand();
 
 	}
@@ -217,7 +235,6 @@ public class ClientInterface extends JFrame implements ActionListener {
 		if (e.getSource() == drawFromDeckButton) {
 			// System.out.println("Selected from Deck");
 			john.drawCard(deck.drawCard());
-			cardsHistory.setText(null);
 			john.printhand();
 		}
 		else if(e.getSource() == drawFromDiscardButton) {

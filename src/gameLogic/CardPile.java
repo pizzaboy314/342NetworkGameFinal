@@ -79,31 +79,4 @@ public class CardPile {
 	public void printTopCard(){
 		pile.get(numOfCards - 1 ).printCard();
 	}
-/*
-	public static void main(String [] args){
-
-		CardPile deck = new CardPile(true);
-		CardPile discard = new CardPile();
-		//deck.PilePrint();
-		deck.drawCard();
-		
-		Playerhand player1 = new Playerhand("player1");
-		Playerhand player2 = new Playerhand("player2");
-		
-		for(int i = 0; i < 10; i++){
-			player1.drawCard(deck.drawCard());
-			player2.drawCard(deck.drawCard());
-		}
-		
-		discard.insertCard(deck.drawCard());
-		
-		System.out.print("Visible card: ");
-		discard.printTopCard();
-		
-		player1.printhand();
-		// player2.printhand();
-		
-		
-	}
-	*/
 }
