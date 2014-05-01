@@ -1,5 +1,6 @@
 package gui;
 
+import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -48,8 +49,11 @@ public class MainLauncher extends JFrame implements Runnable, ActionListener{
 		if (choice == 0){
 			this.add(new ServerPanel());
 		} else if (choice == 1){
+			this.setLayout(new BorderLayout());
 			System.out.println("sec");
-			this.add(new GamePanel());//TODO make 9001 a variable
+			ClientPanel clp = new ClientPanel();
+			this.add(clp, BorderLayout.CENTER);//TODO make 9001 a variable
+			this.add(new GamePanel(clp), BorderLayout.WEST);//TODO make 9001 a variable
 		} else{
 			System.exit(0);
 		}

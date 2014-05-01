@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
-import sharedResources.*;
+import sharedNetResources.*;
 
 /**
  * Handles the client side of the

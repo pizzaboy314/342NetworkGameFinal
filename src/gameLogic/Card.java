@@ -1,4 +1,5 @@
-//package phase10game;
+package gameLogic;
+
 import java.io.*;
 import java.util.*;
 
