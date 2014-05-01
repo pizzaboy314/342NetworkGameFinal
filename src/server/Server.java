@@ -133,6 +133,7 @@ public class Server extends Thread{
 					for (ObjectOutputStream s: destinations)
 					{
 						s.writeObject(new ServerMessage(this.username, myMessage.getMessage()));
+						s.writeObject(new ServerMessage(this.username, myMessage.getMessage()));
 					}
 				}
 				catch (SocketException e)

@@ -91,7 +91,9 @@ public class Client{
 							panel.addUser(messageObject.getSender());
 						}else if (messageObject.isDisconnectMessage()){
 							panel.rmUser(messageObject.getSender());
-						}else {
+						}else if (messageObject.isDrawFromDeckMessage()){
+							//TODO receive drawn card
+						} else {
 							panel.printMessage(messageObject.getSender(), messageObject.getMessage());
 						}
 						System.out.print(messageObject.getSender() + ": " + messageObject.getMessage() + "\n");
@@ -159,6 +161,25 @@ public class Client{
 	 * @param toPerson The sender
 	 */
 	public void sendMessage(String str, String toPerson){
+		ArrayList<String> recipients = new ArrayList<String>();
+		if (toPerson != null && !toPerson.equals(""))
+			recipients.add(toPerson);
+		try {
+			out.writeObject(new ClientMessage(recipients, username, str));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+
+	/**
+	 * Sends a standard message
+	 * 
+	 * @param str Message to send
+	 * @param toPerson The sender
+	 */
+	public void sendGMessage(String str, String toPerson){
 		ArrayList<String> recipients = new ArrayList<String>();
 		if (toPerson != null && !toPerson.equals(""))
 			recipients.add(toPerson);

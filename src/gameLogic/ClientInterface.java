@@ -6,6 +6,8 @@ import java.util.*;
 
 import javax.swing.*;
 
+import client.Client;
+
 public class ClientInterface extends JPanel implements ActionListener{
 	// Game items
 	//static CardPile deck, discardPile;
@@ -20,6 +22,7 @@ public class ClientInterface extends JPanel implements ActionListener{
 	JButton button1, button2, button3, button4, button5, button6, button7, button8, button9, button10, button11;
 	JTextArea cardsHistory, discardHistory, phaseHistory;
 	JLabel handLabel, discardLabel, phaseLabel;
+	private Client cl;
 	
 	// This creates abtMenu when the abtButton is clicked on
 	/*private static void createAbtMenu() throws IOException {
@@ -53,7 +56,7 @@ public class ClientInterface extends JPanel implements ActionListener{
 	}*/
 	
 	// interface constructor
-	public ClientInterface () {
+	public ClientInterface (Client c) {
 		//super (" Client Interface ");
 		
 		// get content pane and set its layout
@@ -195,6 +198,7 @@ public class ClientInterface extends JPanel implements ActionListener{
 	    
 	    //pack();
 	    hd = new Playerhand();
+	    cl =c;
 	    setSize( 900, 500 );
 	    setVisible( true );
 	}
@@ -242,6 +246,7 @@ public class ClientInterface extends JPanel implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 //		// TODO Auto-generated method stub
 		if (e.getSource() == drawFromDeckButton) {
+			cl.sendMessage("Draw Button", null);
 			//TODO server.sendmessage(new cleintmessage(....)));
 		}
 //		else if(e.getSource() == drawFromDiscardButton) {

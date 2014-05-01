@@ -28,6 +28,14 @@ public class ClientMessage extends ServerMessage{
 		destinations = _destinations;
 	}
 	
+	public ClientMessage(String _username, String _message,
+			boolean draw, boolean indiscard, boolean drawdiscard)
+	{
+		super(draw, indiscard, drawdiscard, true);
+		destinations = new ArrayList<String>();
+		//destinations.add(_username);
+	}
+	
 	/**
 	 * Getter for this message's network destinations.
 	 * 

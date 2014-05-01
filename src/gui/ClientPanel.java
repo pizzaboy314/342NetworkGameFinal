@@ -119,7 +119,7 @@ public class ClientPanel extends JPanel implements ListSelectionListener, Action
 		ioPanel.setBorder(new EmptyBorder(3, 3, 3, 3));
 		input = new JTextField();
 		input.addActionListener(this);
-		cli = new ClientInterface();
+		cli = new ClientInterface(clSocket);
 		vertScrollBar = outputWindow.getVerticalScrollBar();
 		
 		ioPanel.add(outputWindow, BorderLayout.CENTER);
@@ -164,8 +164,14 @@ public class ClientPanel extends JPanel implements ListSelectionListener, Action
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == input){
 			printMessage("ME", input.getText());
-			for (String nm: cList.getSelectedValuesList())
-				clSocket.sendMessage(input.getText(), nm);
+			if (cList.getSelectedValuesList().size() != 0){
+				for (String nm: cList.getSelectedValuesList())
+					clSocket.sendMessage(input.getText(), nm);
+			}else{
+				int sz = clListModel.getSize();
+				for (int i = 0; i < sz; ++ i)
+					clSocket.sendMessage(input.getText(), clListModel.elementAt(i));
+			}
 			input.setText("");
 		}
 		

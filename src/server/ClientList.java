@@ -15,10 +15,10 @@ import sharedNetResources.*;
  * 
  * @author Ian Swift
  */
-public class ClientList {
+public class ClientList { 
 	private List<ClientObject> clients;
-	private CardPile deck;
-	private CardPile discard;
+	public static CardPile deck;
+	public static CardPile discard;
 	
 	/**
 	 * Creates the clients list to be used

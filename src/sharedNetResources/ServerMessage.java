@@ -4,6 +4,8 @@ import gameLogic.*;
 
 import java.io.Serializable;
 
+import server.ClientList;
+
 /**
  * Encapsulates the message sent from the
  * server to the client
@@ -21,17 +23,17 @@ public class ServerMessage implements Serializable {
 	private boolean connect_message;
 	private boolean disconnect_message;
 	
-	private boolean gameMessage;
-	private boolean drawFromDeckMessage;
-	private boolean insertDiscardMessage;
-	private boolean drawFromDiscardMessage;
-	private boolean gameover;
-	private boolean hitMessage;
+	protected boolean gameMessage = false;
+	protected boolean drawFromDeckMessage = false;
+	protected boolean insertDiscardMessage = false;
+	protected boolean drawFromDiscardMessage = false;
+	protected boolean gameover = false;
+	protected boolean hitMessage = false;
 	
-	private String phaseText;
-	private String discardHistory;
-	private String phaseHistory;
-	private Card c;
+	protected String phaseText;
+	protected String discardHistory;
+	protected String phaseHistory;
+	protected Card c;
 	
 	/**
 	 * Constructor for this class. Takes in a sender and its associated message.
@@ -72,8 +74,11 @@ public class ServerMessage implements Serializable {
 		this.gameMessage = false;
 	}
 	
-	public ServerMessage(){
-
+	public ServerMessage(boolean ddec, boolean ddis, boolean cs, boolean idis){
+		drawFromDeckMessage = ddec;
+		if (drawFromDeckMessage)
+			c = ClientList.deck.drawCard();
+		insertDiscardMessage = ddis;
 		this.gameMessage = true;
 	}
 	/**
@@ -84,6 +89,10 @@ public class ServerMessage implements Serializable {
 	public String getSender()
 	{
 		return this.sender;
+	}
+	
+	public Card getCard(){
+		return c;
 	}
 	
 	/**
@@ -114,6 +123,26 @@ public class ServerMessage implements Serializable {
 	public boolean isDisconnectMessage()
 	{
 		return this.disconnect_message;
+	}
+	
+	public boolean isDrawFromDeckMessage()
+	{
+		return this.drawFromDeckMessage;
+	}
+	
+	public boolean isInsertDiscardMessage()
+	{
+		return this.insertDiscardMessage;
+	}
+	
+	public boolean isDrawFromDiscardMessage()
+	{
+		return this.drawFromDiscardMessage;
+	}
+	
+	public boolean isGameoverMessage()
+	{
+		return this.gameover;
 	}
 
 	/**
