@@ -14,7 +14,7 @@ public class ClientInterface extends JFrame implements ActionListener {
 	
 	// GUI items
 	JMenuBar mBar;	
-	JButton drawFromDeckButton, drawFromDiscardButton, abtButton;
+	JButton drawFromDeckButton, drawFromDiscardButton, abtButton, hitButton;
 	public JButton phaseCheck;
 	JButton button1, button2, button3, button4, button5, button6, button7, button8, button9, button10, button11;
 	JTextArea cardsHistory, discardHistory, phaseHistory;
@@ -99,6 +99,12 @@ public class ClientInterface extends JFrame implements ActionListener {
 	    phaseCheck.setVisible(true);
 	    phaseCheck.addActionListener(this);
 	    gamePanel.add(phaseCheck);
+	    
+	    hitButton = new JButton("Hit");
+	    hitButton.setEnabled(false);
+	    hitButton.setVisible(true);
+	    hitButton.addActionListener(this);
+	    gamePanel.add(hitButton);
 	    
 	    cardsHistory = new JTextArea ( 10, 10 );
 	    cardsHistory.setEditable(false);
@@ -254,6 +260,23 @@ public class ClientInterface extends JFrame implements ActionListener {
 		else if(e.getSource() == phaseCheck){
 			if(john.phaseCheck())
 				System.out.println("We have a phase! " + john.current_phase);
+		}
+		else if(e.getSource() == hitButton){
+			String s;
+			if(john.istherePhase){
+				s = (String)JOptionPane.showInputDialog(null, "What phase do you want to hit",
+						"Phase Hit", JOptionPane.PLAIN_MESSAGE, null, null, " ");
+				System.out.println("hit : " + s);
+				
+				int temp = 0;
+				try{
+					temp = Integer.parseInt(s);
+				}
+				catch(Exception ex){
+					ex.printStackTrace();
+				}
+				john.insertHit(temp - 1);
+			}
 		}
 		else if(e.getSource() == abtButton) {
 			try {

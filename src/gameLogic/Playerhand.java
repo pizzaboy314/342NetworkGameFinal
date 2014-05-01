@@ -55,13 +55,13 @@ public class Playerhand {
 		}
 	}
 	
-	public void printPhasehand(){
-		mygui.phaseText.remove(phaseTextIndex);
+	public void printPhasehand(int index){
+		mygui.phaseText.remove(index);
 		String tempPhasestring = "";
 		for(int i = 0; i < phase_hand.size(); i++){
 			tempPhasestring = tempPhasestring + phase_hand.get(i).getColor() + phase_hand.get(i).getValue() + " ";
 		}
-		mygui.phaseText.add(phaseTextIndex, "Phase " + (current_phase) + " for " + name + ":\n" + tempPhasestring);
+		mygui.phaseText.add(index, "Phase " + (current_phase) + " for " + name + ":\n" + tempPhasestring);
 		mygui.updatePhaseHistory();
 	}
 	
@@ -81,7 +81,26 @@ public class Playerhand {
 		}
 		
 		printhand();
-		printPhasehand();
+		printPhasehand(phaseTextIndex);
+	}
+	
+	public void insertHit(int index){
+		if(index == -1){
+			System.out.println("Something went wrong");
+			return;
+		}
+		for(int i = 0; i < player_hand.size(); i++){
+			for(int j = 0; j < phase_hand.size(); j++){
+				if(player_hand.get(i).getValue() == phase_hand.get(j).getValue() || player_hand.get(i).getValue() == 14){
+					phase_hand.add(player_hand.remove(i));
+					printhand();
+					printPhasehand(index);
+					if(player_hand.size() == 0)
+						System.out.println("You win!");
+					return;
+				}
+			}
+		}
 	}
 
 	public boolean phaseCheck(){
@@ -133,6 +152,8 @@ public class Playerhand {
 						System.out.println("My cards are: " + cardValue1 + " " + cardValue2);
 						mygui.phaseCheck.setEnabled(false);
 						removePhaseCards(cardValue1, cardValue2, wild_used);
+						istherePhase = true;
+						mygui.hitButton.setEnabled(true);
 						return true;
 					}
 					threeOfaKind = 1;
