@@ -1,25 +1,39 @@
-package gameLogic;
+//package phase10game;
+import java.io.*;
+import java.util.*;
 
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Rectangle;
-
-public final class Card extends Rectangle{
-	public final char suit;
-	public final int rank;//let ace be 14
-	private static int size;
-
-	public Card(int s, int r) {
-		suit = s == 0?'S':s == 1?'H':s == 2?'C':'D';
-		rank = r;
-		size = 50;
-		width = size;
-		height = size * 2;
+public class Card {	
+	private int value;
+	private char color;
+	
+	public Card(int a, char b){
+		value = a;
+		color = b;
 	}
 	
-	public void draw(Graphics g){
-		g.setColor(Color.WHITE);
-		g.draw3DRect(this.x, this.y, this.width, this.height, true);
+	public int getValue(){
+		return value;
 	}
-
+	
+	public char getColor(){
+		return color;
+	}
+	
+	public void printCard(){
+		if(value == 13){
+			System.out.println("SKIP");
+			ClientInterface.c.cardsHistory.append("SKIP");
+			ClientInterface.c.cardsHistory.append("\n");
+		}
+		else if(value == 14){
+			System.out.println("WILD");
+			ClientInterface.c.cardsHistory.append("WILD");
+			ClientInterface.c.cardsHistory.append("\n");
+		}
+		else {
+			System.out.println(color + "" + value + "");
+			ClientInterface.c.cardsHistory.append(color + "" + value + "");
+			ClientInterface.c.cardsHistory.append("\n");
+		}
+	}
 }
