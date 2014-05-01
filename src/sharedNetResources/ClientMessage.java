@@ -28,11 +28,12 @@ public class ClientMessage extends ServerMessage{
 		destinations = _destinations;
 	}
 	
-	public ClientMessage(String _username, String _message,
+	public ClientMessage(String _username,
 			boolean draw, boolean indiscard, boolean drawdiscard)
 	{
-		super(draw, indiscard, drawdiscard, true);
+		super(_username, draw, indiscard, drawdiscard, false);
 		destinations = new ArrayList<String>();
+		destinations.add(_username);
 		//destinations.add(_username);
 	}
 	

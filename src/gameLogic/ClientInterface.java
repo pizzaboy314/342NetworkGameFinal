@@ -12,6 +12,7 @@ public class ClientInterface extends JPanel implements ActionListener{
 	// Game items
 	//static CardPile deck, discardPile;
 	private Playerhand hd;
+	private boolean isWating;
 	
 	ArrayList<String> phaseText = new ArrayList<String>();
 	
@@ -197,8 +198,8 @@ public class ClientInterface extends JPanel implements ActionListener{
 	    phasePanel.add(new JScrollPane(phaseHistory));
 	    
 	    //pack();
-	    hd = new Playerhand();
-	    cl =c;
+	    hd = new Playerhand(c.getName(), c.getID(), this);
+	    cl = c;
 	    setSize( 900, 500 );
 	    setVisible( true );
 	}
@@ -246,7 +247,8 @@ public class ClientInterface extends JPanel implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 //		// TODO Auto-generated method stub
 		if (e.getSource() == drawFromDeckButton) {
-			cl.sendMessage("Draw Button", null);
+			//cl.sendMessage("Draw Button", null);
+			cl.sendGMessage("Draw Button", null);
 			//TODO server.sendmessage(new cleintmessage(....)));
 		}
 //		else if(e.getSource() == drawFromDiscardButton) {
@@ -437,5 +439,12 @@ public class ClientInterface extends JPanel implements ActionListener{
 //				hd.printhand();
 //			}
 //		}
+	}
+
+	public void sendCard(Card card) {
+		System.out.println(card.getColor() + " " + card.getValue());
+		hd.drawCard(card);
+		hd.printhand();
+		//System.out.println("ASDASDASDASDASDFSDAFASDFASDGSADFSADFASDSDAFSADF");
 	}
 }

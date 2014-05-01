@@ -130,10 +130,21 @@ public class Server extends Thread{
 					ClientMessage myMessage =(ClientMessage)clObj.getObIn().readObject();
 					System.out.println("Server gets: " + myMessage.toString());
 					List<ObjectOutputStream> destinations = clientList.getUserOutStreams(myMessage.getDestinations());
-					for (ObjectOutputStream s: destinations)
-					{
-						s.writeObject(new ServerMessage(this.username, myMessage.getMessage()));
-						s.writeObject(new ServerMessage(this.username, myMessage.getMessage()));
+					System.out.println("asdasa");
+					if (myMessage.isDrawFromDeckMessage()){
+						for (ObjectOutputStream s: destinations) {
+							s.writeObject(new ServerMessage(this.username,
+									myMessage.isDrawFromDeckMessage(),
+									myMessage.isDrawFromDiscardMessage(),
+									myMessage.isGameoverMessage(),
+									true));
+							//s.writeObject(new ServerMessage(this.username, myMessage.getMessage()));
+						}
+					} else{
+						for (ObjectOutputStream s: destinations) {
+							s.writeObject(new ServerMessage(this.username, myMessage.getMessage()));
+							//s.writeObject(new ServerMessage(this.username, myMessage.getMessage()));
+						}
 					}
 				}
 				catch (SocketException e)

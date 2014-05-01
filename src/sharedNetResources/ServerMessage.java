@@ -74,9 +74,9 @@ public class ServerMessage implements Serializable {
 		this.gameMessage = false;
 	}
 	
-	public ServerMessage(boolean ddec, boolean ddis, boolean cs, boolean idis){
+	public ServerMessage(String from, boolean ddec, boolean idis, boolean ddis, boolean fromserver){
 		drawFromDeckMessage = ddec;
-		if (drawFromDeckMessage)
+		if (drawFromDeckMessage && fromserver)
 			c = ClientList.deck.drawCard();
 		insertDiscardMessage = ddis;
 		this.gameMessage = true;

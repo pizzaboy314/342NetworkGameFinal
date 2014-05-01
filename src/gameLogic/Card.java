@@ -2,7 +2,9 @@ package gameLogic;
 import java.io.*;
 import java.util.*;
 
-public final class Card {	
+public final class Card implements Serializable{
+	
+	private static final long serialVersionUID = 1L;
 	private int value;
 	private char color;
 	
@@ -17,5 +19,18 @@ public final class Card {
 	
 	public char getColor(){
 		return color;
+	}
+	
+	public void printCard(ClientInterface c) {
+		if (value == 13) {
+			// System.out.println("SKIP");
+			c.cardsHistory.append("SKIP\n");
+		} else if (value == 14) {
+			// System.out.println("WILD");
+			c.cardsHistory.append("WILD\n");
+		} else {
+			// System.out.println(color + "" + value + "");
+			c.cardsHistory.append(color + "" + value + "\n");
+		}
 	}
 }

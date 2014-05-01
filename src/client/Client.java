@@ -19,6 +19,8 @@ import sharedNetResources.*;
  * @author Ian Swift
  */
 public class Client{
+	private static int id;
+	private int ourID;
 	private Socket serverInput;
 	private String username;
 	private ObjectOutputStream out;
@@ -36,6 +38,7 @@ public class Client{
 	public Client(String ip, int port, ClientPanel pn)
 	{
 		panel = pn;
+		ourID = ++id;
 		try {
 			serverInput = new Socket(ip, port);
 			ServerHandler sh = new ServerHandler();
@@ -93,6 +96,8 @@ public class Client{
 							panel.rmUser(messageObject.getSender());
 						}else if (messageObject.isDrawFromDeckMessage()){
 							//TODO receive drawn card
+							System.out.println("asdsaRRRRRRRRRRRRR");
+							panel.getCLI().sendCard(messageObject.getCard());
 						} else {
 							panel.printMessage(messageObject.getSender(), messageObject.getMessage());
 						}
@@ -184,10 +189,22 @@ public class Client{
 		if (toPerson != null && !toPerson.equals(""))
 			recipients.add(toPerson);
 		try {
-			out.writeObject(new ClientMessage(recipients, username, str));
+			out.writeObject(new ClientMessage(this.username,
+					true,false, false));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+	public int getID() {
+		// TODO Auto-generated method stub
+		System.out.println(ourID);
+		return ourID;
+	}
+
+	public String getName() {
+		// TODO Auto-generated method stub
+		return username;
 	}
 }
