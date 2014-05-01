@@ -69,4 +69,11 @@ public class CardPile {
 		pile.add(insert);
 		numOfCards++;
 	}
+	public String PilePrint() {
+		String temp = "";
+ 		for(int i = 0; i < numOfCards; i++){
+ 			temp = temp + pile.get(i).printCard2() + "\n";
+ 		}
+ 		return temp;
+ 	}
 }

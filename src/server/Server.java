@@ -8,7 +8,11 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 
 import javax.swing.JOptionPane;
 
@@ -130,7 +134,7 @@ public class Server extends Thread{
 					ClientMessage myMessage =(ClientMessage)clObj.getObIn().readObject();
 					System.out.println("Server gets: " + myMessage.toString());
 					List<ObjectOutputStream> destinations = clientList.getUserOutStreams(myMessage.getDestinations());
-					System.out.println("asdasa");
+					
 					if (myMessage.isDrawFromDeckMessage()){
 						for (ObjectOutputStream s: destinations) {
 							s.writeObject(new ServerMessage(this.username,
@@ -140,7 +144,19 @@ public class Server extends Thread{
 									true));
 							//s.writeObject(new ServerMessage(this.username, myMessage.getMessage()));
 						}
-					} else{
+					} else if (myMessage.isInsertDiscardMessage()){
+						System.out.println(myMessage.getCard().getColor() + " " + myMessage.getCard().getValue());
+						List<String> nms = new ArrayList<String>();
+						destinations = clientList.getUserOutStreams(null);
+						for (ObjectOutputStream s: destinations) {
+							s.writeObject(new ServerMessage(this.username,
+									myMessage.isDrawFromDeckMessage(),
+									myMessage.isDrawFromDiscardMessage(),
+									myMessage.isGameoverMessage(),
+									true));
+							//s.writeObject(new ServerMessage(this.username, myMessage.getMessage()));
+						}
+					} else {
 						for (ObjectOutputStream s: destinations) {
 							s.writeObject(new ServerMessage(this.username, myMessage.getMessage()));
 							//s.writeObject(new ServerMessage(this.username, myMessage.getMessage()));

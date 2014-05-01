@@ -1,5 +1,7 @@
 package sharedNetResources;
 
+import gameLogic.Card;
+
 import java.util.ArrayList;
 
 /**
@@ -29,9 +31,15 @@ public class ClientMessage extends ServerMessage{
 	}
 	
 	public ClientMessage(String _username,
-			boolean draw, boolean indiscard, boolean drawdiscard)
-	{
+			boolean draw, boolean indiscard, boolean drawdiscard){
 		super(_username, draw, indiscard, drawdiscard, false);
+		destinations = new ArrayList<String>();
+		destinations.add(_username);
+		//destinations.add(_username);
+	}
+	
+	public ClientMessage(String _username,boolean indiscard, Card c){
+		super(_username, indiscard, c, false);
 		destinations = new ArrayList<String>();
 		destinations.add(_username);
 		//destinations.add(_username);

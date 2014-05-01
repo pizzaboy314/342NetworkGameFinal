@@ -6,6 +6,7 @@ import java.util.*;
 
 import javax.swing.*;
 
+import sharedNetResources.ClientMessage;
 import client.Client;
 
 public class ClientInterface extends JPanel implements ActionListener{
@@ -200,6 +201,9 @@ public class ClientInterface extends JPanel implements ActionListener{
 	    //pack();
 	    hd = new Playerhand(c.getName(), c.getID(), this);
 	    cl = c;
+	    for (int i = 0; i < 10; ++i){
+			cl.sendDrawMessage("Draw Button", null);
+	    }
 	    setSize( 900, 500 );
 	    setVisible( true );
 	}
@@ -248,7 +252,7 @@ public class ClientInterface extends JPanel implements ActionListener{
 //		// TODO Auto-generated method stub
 		if (e.getSource() == drawFromDeckButton) {
 			//cl.sendMessage("Draw Button", null);
-			cl.sendGMessage("Draw Button", null);
+			cl.sendDrawMessage("Draw Button", null);
 			//TODO server.sendmessage(new cleintmessage(....)));
 		}
 //		else if(e.getSource() == drawFromDiscardButton) {
@@ -296,19 +300,15 @@ public class ClientInterface extends JPanel implements ActionListener{
 //		/* if user clicks a button, but no card is present in that spot 
 //		 * catch error & print as messagebox
 //		 */
-//		else if (e.getSource() == button1) {
-//			// System.out.println("Button1 Pressed!");
-//			if (hd.curHandSize() < 1) 
-//				JOptionPane.showMessageDialog(null,"NOT ENOUGH CARDS!", "alert", JOptionPane.WARNING_MESSAGE);
-//			else {
-//				discardPile.insertCard(hd.getCard(0));
-//				discardHistory.setText(null);
-//				discardPile.PilePrint();
-//				hd.discard(0);
-//				cardsHistory.setText(null);
-//				hd.printhand();
-//			}
-//		}
+		else if (e.getSource() == button1) {
+			// System.out.println("Button1 Pressed!");
+			if (hd.curHandSize() < 1) 
+				JOptionPane.showMessageDialog(null,"NOT ENOUGH CARDS!", "alert", JOptionPane.WARNING_MESSAGE);
+			else {
+				sendCard(hd.discard(0));
+				hd.printhand();
+			}
+		}
 //		else if (e.getSource() == button2) {
 //			// System.out.println("Button2 Pressed!");
 //			if (hd.curHandSize() < 2) 
@@ -440,8 +440,18 @@ public class ClientInterface extends JPanel implements ActionListener{
 //			}
 //		}
 	}
+	
+	public void sendCard(Card cd){
+		try {
+			cl.getObjOutStream().writeObject(new ClientMessage(cl.getName(),
+					true, cd));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+	}
 
-	public void sendCard(Card card) {
+	public void receiveCard(Card card) {
 		System.out.println(card.getColor() + " " + card.getValue());
 		hd.drawCard(card);
 		hd.printhand();

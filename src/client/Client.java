@@ -97,7 +97,7 @@ public class Client{
 						}else if (messageObject.isDrawFromDeckMessage()){
 							//TODO receive drawn card
 							System.out.println("asdsaRRRRRRRRRRRRR");
-							panel.getCLI().sendCard(messageObject.getCard());
+							panel.getCLI().receiveCard(messageObject.getCard());
 						} else {
 							panel.printMessage(messageObject.getSender(), messageObject.getMessage());
 						}
@@ -176,7 +176,6 @@ public class Client{
 			e.printStackTrace();
 		}
 	}
-	
 
 	/**
 	 * Sends a standard message
@@ -184,7 +183,7 @@ public class Client{
 	 * @param str Message to send
 	 * @param toPerson The sender
 	 */
-	public void sendGMessage(String str, String toPerson){
+	public void sendDrawMessage(String str, String toPerson){
 		ArrayList<String> recipients = new ArrayList<String>();
 		if (toPerson != null && !toPerson.equals(""))
 			recipients.add(toPerson);
