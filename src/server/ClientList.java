@@ -1,5 +1,7 @@
 package server;
 
+import gameLogic.*;
+
 import java.util.*;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
@@ -15,6 +17,8 @@ import sharedNetResources.*;
  */
 public class ClientList {
 	private List<ClientObject> clients;
+	private CardPile deck;
+	private CardPile discard;
 	
 	/**
 	 * Creates the clients list to be used
@@ -22,6 +26,8 @@ public class ClientList {
 	public ClientList()
 	{
 		clients = new ArrayList<ClientObject>();
+		discard = new CardPile();
+		deck = new CardPile(true);
 	}
 	
 	/**

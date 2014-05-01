@@ -1,5 +1,7 @@
 package gui;
 
+import gameLogic.ClientInterface;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
@@ -35,6 +37,7 @@ public class ClientPanel extends JPanel implements ListSelectionListener, Action
 	private JScrollPane listWindow, outputWindow;
 	private JScrollBar vertScrollBar;
 	private String myName, ip, port;
+	private ClientInterface cli;
 
 	public ClientPanel() {
 		boolean hasConnection = false;
@@ -116,12 +119,14 @@ public class ClientPanel extends JPanel implements ListSelectionListener, Action
 		ioPanel.setBorder(new EmptyBorder(3, 3, 3, 3));
 		input = new JTextField();
 		input.addActionListener(this);
+		cli = new ClientInterface();
 		vertScrollBar = outputWindow.getVerticalScrollBar();
 		
 		ioPanel.add(outputWindow, BorderLayout.CENTER);
 		ioPanel.add(input, BorderLayout.SOUTH);
 		add(ioPanel, BorderLayout.CENTER);
 		add(listWindow, BorderLayout.EAST);
+		add(cli, BorderLayout.WEST);
 	}
 	
 	/** Display the formated message 
@@ -164,5 +169,9 @@ public class ClientPanel extends JPanel implements ListSelectionListener, Action
 			input.setText("");
 		}
 		
+	}
+
+	public ClientInterface getCLI() {
+		return cli;
 	}
 }

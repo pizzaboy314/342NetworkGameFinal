@@ -51,13 +51,6 @@ public class CardPile {
 		Collections.shuffle(pile);
 	}
 	
-	public void PilePrint() {
-		for(int i = 0; i < numOfCards; i++){
-			pile.get(i).printCard2();
-		}
-		System.out.print("\n");
-	}
-	
 	public int cards_left(){
 		return numOfCards;
 	}
@@ -75,9 +68,5 @@ public class CardPile {
 	public void insertCard(Card insert){
 		pile.add(insert);
 		numOfCards++;
-	}
-	
-	public void printTopCard(){
-		pile.get(numOfCards - 1 ).printCard();
 	}
 }

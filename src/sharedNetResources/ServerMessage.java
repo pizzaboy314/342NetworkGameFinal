@@ -1,5 +1,7 @@
 package sharedNetResources;
 
+import gameLogic.*;
+
 import java.io.Serializable;
 
 /**
@@ -12,10 +14,24 @@ import java.io.Serializable;
 public class ServerMessage implements Serializable {
 	
 	private static final long serialVersionUID = 8390697074092621636L;
+	private int playerIndex;
+	
 	private String sender;
 	private String message;
 	private boolean connect_message;
 	private boolean disconnect_message;
+	
+	private boolean gameMessage;
+	private boolean drawFromDeckMessage;
+	private boolean insertDiscardMessage;
+	private boolean drawFromDiscardMessage;
+	private boolean gameover;
+	private boolean hitMessage;
+	
+	private String phaseText;
+	private String discardHistory;
+	private String phaseHistory;
+	private Card c;
 	
 	/**
 	 * Constructor for this class. Takes in a sender and its associated message.
@@ -29,6 +45,7 @@ public class ServerMessage implements Serializable {
 		this.disconnect_message = false;
 		this.sender = sender;
 		this.message = message;
+		this.gameMessage = false;
 	}
 
 	/**
@@ -52,8 +69,13 @@ public class ServerMessage implements Serializable {
 			this.connect_message = false;
 		}
 		this.sender = username;
+		this.gameMessage = false;
 	}
 	
+	public ServerMessage(){
+
+		this.gameMessage = true;
+	}
 	/**
 	 * Getter for this message's sender.
 	 * 

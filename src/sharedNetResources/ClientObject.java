@@ -22,7 +22,6 @@ public class ClientObject implements Serializable {
 	private Socket userSocket;
 	private ObjectInputStream in;
 	private ObjectOutputStream out;
-	private Playerhand myHand;
 
 	/**
 	 * Constructor for this class. Takes in the user's name and the socket for
@@ -41,7 +40,6 @@ public class ClientObject implements Serializable {
 		} catch(Exception ex){
 			System.err.println("Unable to create the input/out stream(s)");
 		}
-		myHand = new Playerhand(username, 1);
 	}
 	
 	/**

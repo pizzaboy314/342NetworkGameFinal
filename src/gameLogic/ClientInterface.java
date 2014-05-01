@@ -3,12 +3,13 @@ import java.io.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
+
 import javax.swing.*;
 
-public class ClientInterface extends JPanel implements ActionListener {
+public class ClientInterface extends JPanel implements ActionListener{
 	// Game items
-	static CardPile deck, discardPile;
-	static Playerhand john;
+	//static CardPile deck, discardPile;
+	private Playerhand hd;
 	
 	ArrayList<String> phaseText = new ArrayList<String>();
 	
@@ -193,13 +194,14 @@ public class ClientInterface extends JPanel implements ActionListener {
 	    phasePanel.add(new JScrollPane(phaseHistory));
 	    
 	    //pack();
+	    hd = new Playerhand();
 	    setSize( 900, 500 );
 	    setVisible( true );
 	}
 	
 	public boolean useWild(int phase, int value){
 		int n = JOptionPane.showConfirmDialog(
-			    c,
+			    this,
 			    "Do you want to use the WILD card for phase " + phase + " for the value " + value,
 			    "Wild Option",
 			    JOptionPane.YES_NO_OPTION);
@@ -210,7 +212,7 @@ public class ClientInterface extends JPanel implements ActionListener {
 			return false;
 	}
 	
-	public static ClientInterface c = new ClientInterface();
+	//public static ClientInterface c = new ClientInterface();
 	
 	public void updatePhaseHistory(){
 		phaseHistory.setText(null);
@@ -226,211 +228,209 @@ public class ClientInterface extends JPanel implements ActionListener {
 		 
 		 discardPile = new CardPile();
 		
-		 john = new Playerhand("John", 0);
+		 hd = new Playerhand("hd", 0);
 		
-		// give player 'John' hand of 10 cards
+		// give player 'hd' hand of 10 cards
 		for(int i = 0; i < 10; i++) {
-			john.drawCard(deck.drawCard());
+			hd.drawCard(deck.drawCard());
 		}
-		john.printhand();
+		hd.printhand();
 
 	}*/
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
+//		// TODO Auto-generated method stub
 		if (e.getSource() == drawFromDeckButton) {
-			// System.out.println("Selected from Deck");
-			john.drawCard(deck.drawCard());
-			john.printhand();
+			//TODO server.sendmessage(new cleintmessage(....)));
 		}
-		else if(e.getSource() == drawFromDiscardButton) {
-			// System.out.println("Selected from Discard");
-			if (discardPile.cards_left() < 1) {
-				JOptionPane.showMessageDialog(null,"NOT ENOUGH CARDS!", "alert", JOptionPane.WARNING_MESSAGE);
-			}
-			else {
-				john.drawCard(discardPile.drawCard());	// removes a card from discardPile
-				discardHistory.setText(null);
-				discardPile.PilePrint();
-				cardsHistory.setText(null);
-				john.printhand();
-			}
-		}
-		else if(e.getSource() == phaseCheck){
-			if(john.phaseCheck())
-				System.out.println("We have a phase! " + john.current_phase);
-		}
-		else if(e.getSource() == hitButton){
-			String s;
-			if(john.istherePhase){
-				s = (String)JOptionPane.showInputDialog(null, "What phase do you want to hit",
-						"Phase Hit", JOptionPane.PLAIN_MESSAGE, null, null, " ");
-				System.out.println("hit : " + s);
-				
-				int temp = 0;
-				try{
-					temp = Integer.parseInt(s);
-				}
-				catch(Exception ex){
-					ex.printStackTrace();
-				}
-				john.insertHit(temp - 1);
-			}
-		}
-		/*else if(e.getSource() == abtButton) {
-			try {
-				createAbtMenu();
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-		}*/
-		/* if user clicks a button, but no card is present in that spot 
-		 * catch error & print as messagebox
-		 */
-		else if (e.getSource() == button1) {
-			// System.out.println("Button1 Pressed!");
-			if (john.curHandSize() < 1) 
-				JOptionPane.showMessageDialog(null,"NOT ENOUGH CARDS!", "alert", JOptionPane.WARNING_MESSAGE);
-			else {
-				discardPile.insertCard(john.getCard(0));
-				discardHistory.setText(null);
-				discardPile.PilePrint();
-				john.discard(0);
-				cardsHistory.setText(null);
-				john.printhand();
-			}
-		}
-		else if (e.getSource() == button2) {
-			// System.out.println("Button2 Pressed!");
-			if (john.curHandSize() < 2) 
-				JOptionPane.showMessageDialog(null,"NOT ENOUGH CARDS!", "alert", JOptionPane.WARNING_MESSAGE);
-			else {
-				discardPile.insertCard(john.getCard(1));
-				discardHistory.setText(null);
-				discardPile.PilePrint();
-				john.discard(1);
-				cardsHistory.setText(null);
-				john.printhand();
-			}
-		}
-		else if (e.getSource() == button3) {
-			// System.out.println("Button3 Pressed!");
-			if (john.curHandSize() < 3) 
-				JOptionPane.showMessageDialog(null,"NOT ENOUGH CARDS!", "alert", JOptionPane.WARNING_MESSAGE);
-			else {
-				discardPile.insertCard(john.getCard(2));
-				discardHistory.setText(null);
-				discardPile.PilePrint();
-				john.discard(2);
-				cardsHistory.setText(null);
-				john.printhand();
-			}
-		}
-		else if (e.getSource() == button4) {
-			// System.out.println("Button4 Pressed!");
-			if (john.curHandSize() < 4) 
-				JOptionPane.showMessageDialog(null,"NOT ENOUGH CARDS!", "alert", JOptionPane.WARNING_MESSAGE);
-			else {
-				discardPile.insertCard(john.getCard(3));
-				discardHistory.setText(null);
-				discardPile.PilePrint();
-				john.discard(3);
-				cardsHistory.setText(null);
-				john.printhand();
-			}
-		}
-		else if (e.getSource() == button5) {
-			// System.out.println("Button5 Pressed!");
-			if (john.curHandSize() < 5) 
-				JOptionPane.showMessageDialog(null,"NOT ENOUGH CARDS!", "alert", JOptionPane.WARNING_MESSAGE);
-			else {
-				discardPile.insertCard(john.getCard(4));
-				discardHistory.setText(null);
-				discardPile.PilePrint();
-				john.discard(4);
-				cardsHistory.setText(null);
-				john.printhand();
-			}
-		}
-		else if (e.getSource() == button6) {
-			// System.out.println("Button6 Pressed!");
-			if (john.curHandSize() < 6) 
-				JOptionPane.showMessageDialog(null,"NOT ENOUGH CARDS!", "alert", JOptionPane.WARNING_MESSAGE);
-			else {
-				discardPile.insertCard(john.getCard(5));
-				discardHistory.setText(null);
-				discardPile.PilePrint();
-				john.discard(5);
-				cardsHistory.setText(null);
-				john.printhand();
-			}
-		}
-		else if (e.getSource() == button7) {
-			// System.out.println("Button7 Pressed!");
-			if (john.curHandSize() < 7) 
-				JOptionPane.showMessageDialog(null,"NOT ENOUGH CARDS!", "alert", JOptionPane.WARNING_MESSAGE);
-			else {
-				discardPile.insertCard(john.getCard(6));
-				discardHistory.setText(null);
-				discardPile.PilePrint();
-				john.discard(6);
-				cardsHistory.setText(null);
-				john.printhand();
-			}
-		}
-		else if (e.getSource() == button8) {
-			// System.out.println("Button8 Pressed!");
-			if (john.curHandSize() < 8) 
-				JOptionPane.showMessageDialog(null,"NOT ENOUGH CARDS!", "alert", JOptionPane.WARNING_MESSAGE);
-			else {
-				discardPile.insertCard(john.getCard(7));
-				discardHistory.setText(null);
-				discardPile.PilePrint();
-				john.discard(7);
-				cardsHistory.setText(null);
-				john.printhand();
-			}
-		}
-		else if (e.getSource() == button9) {
-			// System.out.println("Button9 Pressed!");
-			if (john.curHandSize() < 9) 
-				JOptionPane.showMessageDialog(null,"NOT ENOUGH CARDS!", "alert", JOptionPane.WARNING_MESSAGE);
-			else {
-				discardPile.insertCard(john.getCard(8));
-				discardHistory.setText(null);
-				discardPile.PilePrint();
-				john.discard(8);
-				cardsHistory.setText(null);
-				john.printhand();
-			}
-		}
-		else if(e.getSource() == button10) {
-			// System.out.println(Button10 Pressed!");
-			if (john.curHandSize() < 10) 
-				JOptionPane.showMessageDialog(null,"NOT ENOUGH CARDS!", "alert", JOptionPane.WARNING_MESSAGE);
-			else {
-				discardPile.insertCard(john.getCard(9));
-				discardHistory.setText(null);
-				discardPile.PilePrint();
-				john.discard(9);
-				cardsHistory.setText(null);
-				john.printhand();
-			}
-		}
-		else if(e.getSource() == button11) {
-			// System.out.println(Button10 Pressed!");
-			if (john.curHandSize() < 11) 
-				JOptionPane.showMessageDialog(null,"NOT ENOUGH CARDS!", "alert", JOptionPane.WARNING_MESSAGE);
-			else {
-				discardPile.insertCard(john.getCard(10));
-				discardHistory.setText(null);
-				discardPile.PilePrint();
-				john.discard(10);
-				cardsHistory.setText(null);
-				john.printhand();
-			}
-		}
+//		else if(e.getSource() == drawFromDiscardButton) {
+//			// System.out.println("Selected from Discard");
+//			if (discardPile.cards_left() < 1) {
+//				JOptionPane.showMessageDialog(null,"NOT ENOUGH CARDS!", "alert", JOptionPane.WARNING_MESSAGE);
+//			}
+//			else {
+//				hd.drawCard(discardPile.drawCard());	// removes a card from discardPile
+//				discardHistory.setText(null);
+//				discardPile.PilePrint();
+//				cardsHistory.setText(null);
+//				hd.printhand();
+//			}
+//		}
+//		else if(e.getSource() == phaseCheck){
+//			if(hd.phaseCheck())
+//				System.out.println("We have a phase! " + hd.current_phase);
+//		}
+//		else if(e.getSource() == hitButton){
+//			String s;
+//			if(hd.istherePhase){
+//				s = (String)JOptionPane.showInputDialog(null, "What phase do you want to hit",
+//						"Phase Hit", JOptionPane.PLAIN_MESSAGE, null, null, " ");
+//				System.out.println("hit : " + s);
+//				
+//				int temp = 0;
+//				try{
+//					temp = Integer.parseInt(s);
+//				}
+//				catch(Exception ex){
+//					ex.printStackTrace();
+//				}
+//				hd.insertHit(temp - 1);
+//			}
+//		}
+//		/*else if(e.getSource() == abtButton) {
+//			try {
+//				createAbtMenu();
+//			} catch (IOException e1) {
+//				// TODO Auto-generated catch block
+//				e1.printStackTrace();
+//			}
+//		}*/
+//		/* if user clicks a button, but no card is present in that spot 
+//		 * catch error & print as messagebox
+//		 */
+//		else if (e.getSource() == button1) {
+//			// System.out.println("Button1 Pressed!");
+//			if (hd.curHandSize() < 1) 
+//				JOptionPane.showMessageDialog(null,"NOT ENOUGH CARDS!", "alert", JOptionPane.WARNING_MESSAGE);
+//			else {
+//				discardPile.insertCard(hd.getCard(0));
+//				discardHistory.setText(null);
+//				discardPile.PilePrint();
+//				hd.discard(0);
+//				cardsHistory.setText(null);
+//				hd.printhand();
+//			}
+//		}
+//		else if (e.getSource() == button2) {
+//			// System.out.println("Button2 Pressed!");
+//			if (hd.curHandSize() < 2) 
+//				JOptionPane.showMessageDialog(null,"NOT ENOUGH CARDS!", "alert", JOptionPane.WARNING_MESSAGE);
+//			else {
+//				discardPile.insertCard(hd.getCard(1));
+//				discardHistory.setText(null);
+//				discardPile.PilePrint();
+//				hd.discard(1);
+//				cardsHistory.setText(null);
+//				hd.printhand();
+//			}
+//		}
+//		else if (e.getSource() == button3) {
+//			// System.out.println("Button3 Pressed!");
+//			if (hd.curHandSize() < 3) 
+//				JOptionPane.showMessageDialog(null,"NOT ENOUGH CARDS!", "alert", JOptionPane.WARNING_MESSAGE);
+//			else {
+//				discardPile.insertCard(hd.getCard(2));
+//				discardHistory.setText(null);
+//				discardPile.PilePrint();
+//				hd.discard(2);
+//				cardsHistory.setText(null);
+//				hd.printhand();
+//			}
+//		}
+//		else if (e.getSource() == button4) {
+//			// System.out.println("Button4 Pressed!");
+//			if (hd.curHandSize() < 4) 
+//				JOptionPane.showMessageDialog(null,"NOT ENOUGH CARDS!", "alert", JOptionPane.WARNING_MESSAGE);
+//			else {
+//				discardPile.insertCard(hd.getCard(3));
+//				discardHistory.setText(null);
+//				discardPile.PilePrint();
+//				hd.discard(3);
+//				cardsHistory.setText(null);
+//				hd.printhand();
+//			}
+//		}
+//		else if (e.getSource() == button5) {
+//			// System.out.println("Button5 Pressed!");
+//			if (hd.curHandSize() < 5) 
+//				JOptionPane.showMessageDialog(null,"NOT ENOUGH CARDS!", "alert", JOptionPane.WARNING_MESSAGE);
+//			else {
+//				discardPile.insertCard(hd.getCard(4));
+//				discardHistory.setText(null);
+//				discardPile.PilePrint();
+//				hd.discard(4);
+//				cardsHistory.setText(null);
+//				hd.printhand();
+//			}
+//		}
+//		else if (e.getSource() == button6) {
+//			// System.out.println("Button6 Pressed!");
+//			if (hd.curHandSize() < 6) 
+//				JOptionPane.showMessageDialog(null,"NOT ENOUGH CARDS!", "alert", JOptionPane.WARNING_MESSAGE);
+//			else {
+//				discardPile.insertCard(hd.getCard(5));
+//				discardHistory.setText(null);
+//				discardPile.PilePrint();
+//				hd.discard(5);
+//				cardsHistory.setText(null);
+//				hd.printhand();
+//			}
+//		}
+//		else if (e.getSource() == button7) {
+//			// System.out.println("Button7 Pressed!");
+//			if (hd.curHandSize() < 7) 
+//				JOptionPane.showMessageDialog(null,"NOT ENOUGH CARDS!", "alert", JOptionPane.WARNING_MESSAGE);
+//			else {
+//				discardPile.insertCard(hd.getCard(6));
+//				discardHistory.setText(null);
+//				discardPile.PilePrint();
+//				hd.discard(6);
+//				cardsHistory.setText(null);
+//				hd.printhand();
+//			}
+//		}
+//		else if (e.getSource() == button8) {
+//			// System.out.println("Button8 Pressed!");
+//			if (hd.curHandSize() < 8) 
+//				JOptionPane.showMessageDialog(null,"NOT ENOUGH CARDS!", "alert", JOptionPane.WARNING_MESSAGE);
+//			else {
+//				discardPile.insertCard(hd.getCard(7));
+//				discardHistory.setText(null);
+//				discardPile.PilePrint();
+//				hd.discard(7);
+//				cardsHistory.setText(null);
+//				hd.printhand();
+//			}
+//		}
+//		else if (e.getSource() == button9) {
+//			// System.out.println("Button9 Pressed!");
+//			if (hd.curHandSize() < 9) 
+//				JOptionPane.showMessageDialog(null,"NOT ENOUGH CARDS!", "alert", JOptionPane.WARNING_MESSAGE);
+//			else {
+//				discardPile.insertCard(hd.getCard(8));
+//				discardHistory.setText(null);
+//				discardPile.PilePrint();
+//				hd.discard(8);
+//				cardsHistory.setText(null);
+//				hd.printhand();
+//			}
+//		}
+//		else if(e.getSource() == button10) {
+//			// System.out.println(Button10 Pressed!");
+//			if (hd.curHandSize() < 10) 
+//				JOptionPane.showMessageDialog(null,"NOT ENOUGH CARDS!", "alert", JOptionPane.WARNING_MESSAGE);
+//			else {
+//				discardPile.insertCard(hd.getCard(9));
+//				discardHistory.setText(null);
+//				discardPile.PilePrint();
+//				hd.discard(9);
+//				cardsHistory.setText(null);
+//				hd.printhand();
+//			}
+//		}
+//		else if(e.getSource() == button11) {
+//			// System.out.println(Button10 Pressed!");
+//			if (hd.curHandSize() < 11) 
+//				JOptionPane.showMessageDialog(null,"NOT ENOUGH CARDS!", "alert", JOptionPane.WARNING_MESSAGE);
+//			else {
+//				discardPile.insertCard(hd.getCard(10));
+//				discardHistory.setText(null);
+//				discardPile.PilePrint();
+//				hd.discard(10);
+//				cardsHistory.setText(null);
+//				hd.printhand();
+//			}
+//		}
 	}
 }

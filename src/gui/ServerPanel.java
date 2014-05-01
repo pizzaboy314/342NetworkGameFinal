@@ -1,5 +1,7 @@
 package gui;
 
+import gameLogic.ClientInterface;
+
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 
@@ -52,6 +54,10 @@ public class ServerPanel extends JPanel{
 	
 	public ClientPanel getClientPanel(){
 		return cPanel;
+	}
+	
+	public ClientInterface getGameInterface() {
+		return cPanel.getCLI();
 	}
 	
 	/**
