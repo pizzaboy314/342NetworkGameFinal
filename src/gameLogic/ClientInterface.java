@@ -1,5 +1,3 @@
-package gameLogic;
-
 import java.io.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -8,14 +6,15 @@ import javax.swing.*;
 
 public class ClientInterface extends JFrame implements ActionListener {
 	// Game items
-	static CardPile deck;
+	static CardPile deck, discardPile;
 	static Playerhand john;
 	
 	// GUI items
 	JMenuBar mBar;	
-	JButton drawFromDeckButton, drawFromDiscardButton, abtButton;
-	JButton button1, button2, button3, button4, button5, button6, button7, button8, button9, button10;
-	JTextArea cardsHistory;
+	JButton drawFromDeckButton, drawFromDiscardButton, abtButton, phaseCheck;
+	JButton button1, button2, button3, button4, button5, button6, button7, button8, button9, button10, button11;
+	JTextArea cardsHistory, discardHistory;
+	JLabel handLabel, discardLabel;
 	
 	// This creates abtMenu when the abtButton is clicked on
 	private static void createAbtMenu() throws IOException {
@@ -61,6 +60,7 @@ public class ClientInterface extends JFrame implements ActionListener {
 	    JPanel textPanel = new JPanel ();
 	    JPanel discardPanel = new JPanel ();
 	    gamePanel.setLayout (new GridLayout (4, 2));
+	    textPanel.setLayout(new GridLayout (2,2));
 	    container.add(gamePanel, BorderLayout.CENTER);
 	    container.add(textPanel, BorderLayout.WEST);
 	    container.add(discardPanel, BorderLayout.SOUTH);
@@ -86,9 +86,18 @@ public class ClientInterface extends JFrame implements ActionListener {
 	    drawFromDiscardButton.setVisible(true);
 	    drawFromDiscardButton.addActionListener(this);
 	    gamePanel.add(drawFromDiscardButton);
+
+	    phaseCheck = new JButton("I have the phase!");
+	    phaseCheck.setEnabled(true);
+	    phaseCheck.setVisible(true);
+	    phaseCheck.addActionListener(this);
+	    gamePanel.add(phaseCheck);
 	    
 	    cardsHistory = new JTextArea ( 10, 10 );
 	    cardsHistory.setEditable(false);
+	    
+	    discardHistory = new JTextArea( 10, 10 );
+	    discardHistory.setEditable(false);
 	    
 	    button1 = new JButton("1");
 	    button1.setEnabled(true);
@@ -140,6 +149,11 @@ public class ClientInterface extends JFrame implements ActionListener {
 	    button10.setVisible(true);
 	    button10.addActionListener(this);
 	    
+	    button11 = new JButton("11");
+	    button11.setEnabled(true);
+	    button11.setVisible(true);
+	    button11.addActionListener(this);
+	    
 	    discardPanel.add(button1);
 	    discardPanel.add(button2);
 	    discardPanel.add(button3);
@@ -150,12 +164,31 @@ public class ClientInterface extends JFrame implements ActionListener {
 	    discardPanel.add(button8);
 	    discardPanel.add(button9);
 	    discardPanel.add(button10);
+	    discardPanel.add(button11);
 	    
+	    handLabel = new JLabel("Your Hand");
+	    discardLabel = new JLabel("Discard Pile");
+	    textPanel.add(handLabel);
+	    textPanel.add(discardLabel);
 	    textPanel.add(new JScrollPane(cardsHistory));
+	    textPanel.add(new JScrollPane(discardHistory));
 	    
 	    pack();
-	    setSize( 500, 250 );
+	    setSize( 550, 500 );
 	    setVisible( true );
+	}
+	
+	public boolean useWild(int phase, int value){
+		int n = JOptionPane.showConfirmDialog(
+			    c,
+			    "Do you want to use the WILD card for phase " + phase + " for the value " + value,
+			    "Wild Option",
+			    JOptionPane.YES_NO_OPTION);
+		if(n == JOptionPane.YES_OPTION){
+			return true;
+		}
+		else
+			return false;
 	}
 	
 	public static ClientInterface c = new ClientInterface();
@@ -164,6 +197,8 @@ public class ClientInterface extends JFrame implements ActionListener {
 		c.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 
 		 deck = new CardPile(true);
+		 
+		 discardPile = new CardPile();
 		
 		 john = new Playerhand("John");
 		
@@ -186,7 +221,21 @@ public class ClientInterface extends JFrame implements ActionListener {
 			john.printhand();
 		}
 		else if(e.getSource() == drawFromDiscardButton) {
-			System.out.println("Selected from Discard");
+			// System.out.println("Selected from Discard");
+			if (discardPile.cards_left() < 1) {
+				JOptionPane.showMessageDialog(null,"NOT ENOUGH CARDS!", "alert", JOptionPane.WARNING_MESSAGE);
+			}
+			else {
+				john.drawCard(discardPile.drawCard());	// removes a card from discardPile
+				discardHistory.setText(null);
+				discardPile.PilePrint();
+				cardsHistory.setText(null);
+				john.printhand();
+			}
+		}
+		else if(e.getSource() == phaseCheck){
+			if(john.phaseCheck())
+				System.out.println("We have a phase! " + john.current_phase);
 		}
 		else if(e.getSource() == abtButton) {
 			try {
@@ -204,6 +253,9 @@ public class ClientInterface extends JFrame implements ActionListener {
 			if (john.curHandSize() < 1) 
 				JOptionPane.showMessageDialog(null,"NOT ENOUGH CARDS!", "alert", JOptionPane.WARNING_MESSAGE);
 			else {
+				discardPile.insertCard(john.getCard(0));
+				discardHistory.setText(null);
+				discardPile.PilePrint();
 				john.discard(0);
 				cardsHistory.setText(null);
 				john.printhand();
@@ -214,6 +266,9 @@ public class ClientInterface extends JFrame implements ActionListener {
 			if (john.curHandSize() < 2) 
 				JOptionPane.showMessageDialog(null,"NOT ENOUGH CARDS!", "alert", JOptionPane.WARNING_MESSAGE);
 			else {
+				discardPile.insertCard(john.getCard(1));
+				discardHistory.setText(null);
+				discardPile.PilePrint();
 				john.discard(1);
 				cardsHistory.setText(null);
 				john.printhand();
@@ -224,6 +279,9 @@ public class ClientInterface extends JFrame implements ActionListener {
 			if (john.curHandSize() < 3) 
 				JOptionPane.showMessageDialog(null,"NOT ENOUGH CARDS!", "alert", JOptionPane.WARNING_MESSAGE);
 			else {
+				discardPile.insertCard(john.getCard(2));
+				discardHistory.setText(null);
+				discardPile.PilePrint();
 				john.discard(2);
 				cardsHistory.setText(null);
 				john.printhand();
@@ -234,6 +292,9 @@ public class ClientInterface extends JFrame implements ActionListener {
 			if (john.curHandSize() < 4) 
 				JOptionPane.showMessageDialog(null,"NOT ENOUGH CARDS!", "alert", JOptionPane.WARNING_MESSAGE);
 			else {
+				discardPile.insertCard(john.getCard(3));
+				discardHistory.setText(null);
+				discardPile.PilePrint();
 				john.discard(3);
 				cardsHistory.setText(null);
 				john.printhand();
@@ -244,6 +305,9 @@ public class ClientInterface extends JFrame implements ActionListener {
 			if (john.curHandSize() < 5) 
 				JOptionPane.showMessageDialog(null,"NOT ENOUGH CARDS!", "alert", JOptionPane.WARNING_MESSAGE);
 			else {
+				discardPile.insertCard(john.getCard(4));
+				discardHistory.setText(null);
+				discardPile.PilePrint();
 				john.discard(4);
 				cardsHistory.setText(null);
 				john.printhand();
@@ -254,6 +318,9 @@ public class ClientInterface extends JFrame implements ActionListener {
 			if (john.curHandSize() < 6) 
 				JOptionPane.showMessageDialog(null,"NOT ENOUGH CARDS!", "alert", JOptionPane.WARNING_MESSAGE);
 			else {
+				discardPile.insertCard(john.getCard(5));
+				discardHistory.setText(null);
+				discardPile.PilePrint();
 				john.discard(5);
 				cardsHistory.setText(null);
 				john.printhand();
@@ -264,6 +331,9 @@ public class ClientInterface extends JFrame implements ActionListener {
 			if (john.curHandSize() < 7) 
 				JOptionPane.showMessageDialog(null,"NOT ENOUGH CARDS!", "alert", JOptionPane.WARNING_MESSAGE);
 			else {
+				discardPile.insertCard(john.getCard(6));
+				discardHistory.setText(null);
+				discardPile.PilePrint();
 				john.discard(6);
 				cardsHistory.setText(null);
 				john.printhand();
@@ -274,6 +344,9 @@ public class ClientInterface extends JFrame implements ActionListener {
 			if (john.curHandSize() < 8) 
 				JOptionPane.showMessageDialog(null,"NOT ENOUGH CARDS!", "alert", JOptionPane.WARNING_MESSAGE);
 			else {
+				discardPile.insertCard(john.getCard(7));
+				discardHistory.setText(null);
+				discardPile.PilePrint();
 				john.discard(7);
 				cardsHistory.setText(null);
 				john.printhand();
@@ -284,6 +357,9 @@ public class ClientInterface extends JFrame implements ActionListener {
 			if (john.curHandSize() < 9) 
 				JOptionPane.showMessageDialog(null,"NOT ENOUGH CARDS!", "alert", JOptionPane.WARNING_MESSAGE);
 			else {
+				discardPile.insertCard(john.getCard(8));
+				discardHistory.setText(null);
+				discardPile.PilePrint();
 				john.discard(8);
 				cardsHistory.setText(null);
 				john.printhand();
@@ -294,7 +370,23 @@ public class ClientInterface extends JFrame implements ActionListener {
 			if (john.curHandSize() < 10) 
 				JOptionPane.showMessageDialog(null,"NOT ENOUGH CARDS!", "alert", JOptionPane.WARNING_MESSAGE);
 			else {
+				discardPile.insertCard(john.getCard(9));
+				discardHistory.setText(null);
+				discardPile.PilePrint();
 				john.discard(9);
+				cardsHistory.setText(null);
+				john.printhand();
+			}
+		}
+		else if(e.getSource() == button11) {
+			// System.out.println(Button10 Pressed!");
+			if (john.curHandSize() < 11) 
+				JOptionPane.showMessageDialog(null,"NOT ENOUGH CARDS!", "alert", JOptionPane.WARNING_MESSAGE);
+			else {
+				discardPile.insertCard(john.getCard(10));
+				discardHistory.setText(null);
+				discardPile.PilePrint();
+				john.discard(10);
 				cardsHistory.setText(null);
 				john.printhand();
 			}

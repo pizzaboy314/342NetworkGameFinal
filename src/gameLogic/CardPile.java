@@ -1,5 +1,3 @@
-package gameLogic;
-
 import java.io.*;
 import java.util.*;
 
@@ -9,7 +7,7 @@ public class CardPile {
 	private int numOfCards;
 	private boolean discard;
 	
-	public CardPile(){
+	public CardPile() {
 		numOfCards = 0;
 		discard = true;
 	}
@@ -52,9 +50,9 @@ public class CardPile {
 		Collections.shuffle(pile);
 	}
 	
-	public void PilePrint(){
+	public void PilePrint() {
 		for(int i = 0; i < numOfCards; i++){
-			pile.get(i).printCard();
+			pile.get(i).printCard2();
 		}
 		System.out.print("\n");
 	}
@@ -63,7 +61,7 @@ public class CardPile {
 		return numOfCards;
 	}
 	
-	public Card drawCard(){
+	public Card drawCard() {
 		if(numOfCards == 0){
 			System.out.println("Cannot draw more cards.");
 			return null;
