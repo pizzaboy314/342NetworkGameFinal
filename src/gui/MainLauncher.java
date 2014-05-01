@@ -46,10 +46,12 @@ public class MainLauncher extends JFrame implements Runnable, ActionListener{
 				"Are you a server?", "Launcher",
 				JOptionPane.YES_NO_OPTION);
 		System.out.println("Option = " + choice);
+		this.setLayout(new BorderLayout());
 		if (choice == 0){
-			this.add(new ServerPanel());
+			ServerPanel clp = new ServerPanel();
+			this.add(clp, BorderLayout.CENTER);//TODO make 9001 a variable
+			this.add(new GamePanel(clp.getClientPanel()), BorderLayout.WEST);//TODO make 9001 a variable
 		} else if (choice == 1){
-			this.setLayout(new BorderLayout());
 			System.out.println("sec");
 			ClientPanel clp = new ClientPanel();
 			this.add(clp, BorderLayout.CENTER);//TODO make 9001 a variable
@@ -57,7 +59,7 @@ public class MainLauncher extends JFrame implements Runnable, ActionListener{
 		} else{
 			System.exit(0);
 		}
-		this.setPreferredSize(new Dimension(500, 500));
+		this.setPreferredSize(new Dimension(800, 500));
 		this.pack();
 	}
 

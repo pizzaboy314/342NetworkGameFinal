@@ -50,6 +50,10 @@ public class ServerPanel extends JPanel{
 		this.add(cPanel, BorderLayout.CENTER);
 	}
 	
+	public ClientPanel getClientPanel(){
+		return cPanel;
+	}
+	
 	/**
 	 * Updates the GUI for the server information
 	 * @param ip IP for connection

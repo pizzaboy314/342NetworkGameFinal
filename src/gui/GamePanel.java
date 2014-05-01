@@ -24,7 +24,7 @@ public class GamePanel extends JPanel implements ActionListener {
 
 	public GamePanel(ClientPanel cl) {
 		clPanel = cl;
-		this.setPreferredSize(new Dimension(300, 300));
+		this.setPreferredSize(new Dimension(400, 300));
 	}
 	
 	@Override
