@@ -1,5 +1,7 @@
 package sharedNetResources;
 
+import gameLogic.Playerhand;
+
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
@@ -16,9 +18,11 @@ public class ClientObject implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 	private String username;
+	private int id;
 	private Socket userSocket;
 	private ObjectInputStream in;
 	private ObjectOutputStream out;
+	private Playerhand myHand;
 
 	/**
 	 * Constructor for this class. Takes in the user's name and the socket for
@@ -27,15 +31,17 @@ public class ClientObject implements Serializable {
 	 * @param _username
 	 * @param _userSocket
 	 */
-	public ClientObject(String _username, Socket _userSocket) {
+	public ClientObject(String _username, Socket _userSocket, int _id) {
 		username = _username;
 		userSocket = _userSocket;
+		id = _id;
 		try{
 			in = new ObjectInputStream(_userSocket.getInputStream());
 			out = new ObjectOutputStream(_userSocket.getOutputStream());
 		} catch(Exception ex){
 			System.err.println("Unable to create the input/out stream(s)");
 		}
+		myHand = new Playerhand(username, 1);
 	}
 	
 	/**

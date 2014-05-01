@@ -1,5 +1,7 @@
 package gui;
 
+import gameLogic.ClientInterface;
+
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -50,16 +52,16 @@ public class MainLauncher extends JFrame implements Runnable, ActionListener{
 		if (choice == 0){
 			ServerPanel clp = new ServerPanel();
 			this.add(clp, BorderLayout.CENTER);//TODO make 9001 a variable
-			this.add(new GamePanel(clp.getClientPanel()), BorderLayout.WEST);//TODO make 9001 a variable
+			this.add(new ClientInterface(), BorderLayout.WEST);//TODO make 9001 a variable
 		} else if (choice == 1){
 			System.out.println("sec");
 			ClientPanel clp = new ClientPanel();
 			this.add(clp, BorderLayout.CENTER);//TODO make 9001 a variable
-			this.add(new GamePanel(clp), BorderLayout.WEST);//TODO make 9001 a variable
+			this.add(new ClientInterface(), BorderLayout.WEST);//TODO make 9001 a variable
 		} else{
 			System.exit(0);
 		}
-		this.setPreferredSize(new Dimension(800, 500));
+		//this.setPreferredSize(new Dimension(800, 500));
 		this.pack();
 	}
 

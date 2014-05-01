@@ -5,7 +5,7 @@ import java.awt.event.*;
 import java.util.*;
 import javax.swing.*;
 
-public class ClientInterface extends JFrame implements ActionListener {
+public class ClientInterface extends JPanel implements ActionListener {
 	// Game items
 	static CardPile deck, discardPile;
 	static Playerhand john;
@@ -21,7 +21,7 @@ public class ClientInterface extends JFrame implements ActionListener {
 	JLabel handLabel, discardLabel, phaseLabel;
 	
 	// This creates abtMenu when the abtButton is clicked on
-	private static void createAbtMenu() throws IOException {
+	/*private static void createAbtMenu() throws IOException {
 		// Create About Frame
 		JFrame abtFrame = new JFrame("About: Sliding Frame");
 		
@@ -49,15 +49,15 @@ public class ClientInterface extends JFrame implements ActionListener {
 			
 		abtFrame.pack();
 		abtFrame.setVisible(true);
-	}
+	}*/
 	
 	// interface constructor
 	public ClientInterface () {
-		super (" Client Interface ");
+		//super (" Client Interface ");
 		
 		// get content pane and set its layout
-	    Container container = getContentPane();
-	    container.setLayout (new BorderLayout ());
+	    //Container container = getContentPane();
+	    this.setLayout (new BorderLayout ());
 	     
 	    // set up the North panel
 	    JPanel gamePanel = new JPanel ();
@@ -67,12 +67,12 @@ public class ClientInterface extends JFrame implements ActionListener {
 	    gamePanel.setLayout (new GridLayout (4, 2));
 	    textPanel.setLayout(new GridLayout (2,2));
 	    phasePanel.setLayout(new GridLayout(2,2));
-	    container.add(gamePanel, BorderLayout.EAST);
-	    container.add(phasePanel, BorderLayout.CENTER);
-	    container.add(textPanel, BorderLayout.WEST);
-	    container.add(discardPanel, BorderLayout.SOUTH);
+	    this.add(gamePanel, BorderLayout.EAST);
+	    this.add(phasePanel, BorderLayout.CENTER);
+	    this.add(textPanel, BorderLayout.WEST);
+	    this.add(discardPanel, BorderLayout.SOUTH);
 	    mBar = new JMenuBar();
-	    setJMenuBar(mBar);
+	    //setJMenuBar(mBar);
 	
 	    abtButton = new JButton("About");
 	    abtButton.setEnabled(true);
@@ -192,7 +192,7 @@ public class ClientInterface extends JFrame implements ActionListener {
 	    phasePanel.add(phaseLabel);
 	    phasePanel.add(new JScrollPane(phaseHistory));
 	    
-	    pack();
+	    //pack();
 	    setSize( 900, 500 );
 	    setVisible( true );
 	}
@@ -219,8 +219,8 @@ public class ClientInterface extends JFrame implements ActionListener {
 		}
 	}
 	
-	public static void main(String[] args) {
-		c.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+	/*public static void main(String[] args) {
+		//c.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 
 		 deck = new CardPile(true);
 		 
@@ -234,7 +234,7 @@ public class ClientInterface extends JFrame implements ActionListener {
 		}
 		john.printhand();
 
-	}
+	}*/
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -278,14 +278,14 @@ public class ClientInterface extends JFrame implements ActionListener {
 				john.insertHit(temp - 1);
 			}
 		}
-		else if(e.getSource() == abtButton) {
+		/*else if(e.getSource() == abtButton) {
 			try {
 				createAbtMenu();
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-		}
+		}*/
 		/* if user clicks a button, but no card is present in that spot 
 		 * catch error & print as messagebox
 		 */

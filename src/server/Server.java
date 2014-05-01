@@ -24,6 +24,7 @@ public class Server extends Thread{
 	private ServerSocket serverSocket;
 	private ClientList clientList;
 	private ServerPanel panel;
+	private int numplayers;
 	
 	/**
 	 * Establishes the threads to handle the clients
@@ -33,6 +34,7 @@ public class Server extends Thread{
 	public Server (ServerPanel pn)
 	{
 		panel = pn;
+		numplayers = 0;
 		clientList = new ClientList();
 		try {
 			serverSocket = new ServerSocket(0);
@@ -93,7 +95,7 @@ public class Server extends Thread{
 		 */
 		public ClientHandler(Socket mySocket)
 		{
-			clObj = new ClientObject("", mySocket);
+			clObj = new ClientObject("", mySocket, ++numplayers);
 		}
 		
 		/**

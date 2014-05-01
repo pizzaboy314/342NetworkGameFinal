@@ -2,7 +2,7 @@ package gameLogic;
 import java.io.*;
 import java.util.*;
 
-public class Card {	
+public final class Card {	
 	private int value;
 	private char color;
 	
