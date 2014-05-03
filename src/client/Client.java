@@ -1,5 +1,6 @@
 package client;
 
+import gameLogic.Card;
 import gui.ClientPanel;
 
 import java.io.IOException;
@@ -192,6 +193,15 @@ public class Client{
 					true,false, false));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public void sendCard(Card cd){
+		System.out.println("value: " + cd.getValue());
+		try {
+			out.writeObject(new ClientMessage(username, true, cd));
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}

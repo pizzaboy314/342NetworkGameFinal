@@ -20,8 +20,8 @@ public class ServerMessage implements Serializable {
 	
 	private String sender;
 	private String message;
-	private boolean connect_message;
-	private boolean disconnect_message;
+	private boolean connect_message = false;
+	private boolean disconnect_message = false;
 	
 	protected boolean gameMessage = false;
 	protected boolean drawFromDeckMessage = false;

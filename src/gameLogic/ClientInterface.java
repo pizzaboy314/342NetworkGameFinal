@@ -303,9 +303,9 @@ public class ClientInterface extends JPanel implements ActionListener{
 		else if (e.getSource() == button1) {
 			// System.out.println("Button1 Pressed!");
 			if (hd.curHandSize() < 1) 
-				JOptionPane.showMessageDialog(null,"NOT ENOUGH CARDS!", "alert", JOptionPane.WARNING_MESSAGE);
+				JOptionPane.showMessageDialog(null,"NOT ENOUGH CARDS!", "Alert", JOptionPane.WARNING_MESSAGE);
 			else {
-				sendCard(hd.discard(0));
+				cl.sendCard(hd.discard(0));
 				hd.printhand();
 			}
 		}
@@ -439,17 +439,6 @@ public class ClientInterface extends JPanel implements ActionListener{
 //				hd.printhand();
 //			}
 //		}
-	}
-	
-	public void sendCard(Card cd){
-		System.out.println("value: " + cd.getValue());
-		try {
-			cl.getObjOutStream().writeObject(new ClientMessage(cl.getName(),
-					true, cd));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
 	}
 
 	public void receiveCard(Card card) {

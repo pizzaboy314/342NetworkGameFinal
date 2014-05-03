@@ -136,6 +136,7 @@ public class Server extends Thread{
 					List<ObjectOutputStream> destinations = clientList.getUserOutStreams(myMessage.getDestinations());
 					
 					if (myMessage.isDrawFromDeckMessage()){
+						System.out.println("Read as a draw message");
 						for (ObjectOutputStream s: destinations) {
 							s.writeObject(new ServerMessage(this.username,
 									myMessage.isDrawFromDeckMessage(),
@@ -145,6 +146,7 @@ public class Server extends Thread{
 							//s.writeObject(new ServerMessage(this.username, myMessage.getMessage()));
 						}
 					} else if (myMessage.isInsertDiscardMessage()){
+						System.out.println("Read as a insert discard message");
 						System.out.println(myMessage.getCard().getColor() + " " + myMessage.getCard().getValue());
 						List<String> nms = new ArrayList<String>();
 						destinations = clientList.getUserOutStreams(null);
@@ -157,6 +159,7 @@ public class Server extends Thread{
 							//s.writeObject(new ServerMessage(this.username, myMessage.getMessage()));
 						}
 					} else {
+						System.out.println("Read as other message");
 						for (ObjectOutputStream s: destinations) {
 							s.writeObject(new ServerMessage(this.username, myMessage.getMessage()));
 							//s.writeObject(new ServerMessage(this.username, myMessage.getMessage()));
