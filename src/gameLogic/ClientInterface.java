@@ -442,6 +442,7 @@ public class ClientInterface extends JPanel implements ActionListener{
 	}
 	
 	public void sendCard(Card cd){
+		System.out.println("value: " + cd.getValue());
 		try {
 			cl.getObjOutStream().writeObject(new ClientMessage(cl.getName(),
 					true, cd));
