@@ -152,9 +152,8 @@ public class Server extends Thread{
 						destinations = clientList.getUserOutStreams(null);
 						for (ObjectOutputStream s: destinations) {
 							s.writeObject(new ServerMessage(this.username,
-									myMessage.isDrawFromDeckMessage(),
-									myMessage.isDrawFromDiscardMessage(),
-									myMessage.isGameoverMessage(),
+									myMessage.isInsertDiscardMessage(),
+									myMessage.getCard(),
 									true));
 							//s.writeObject(new ServerMessage(this.username, myMessage.getMessage()));
 						}

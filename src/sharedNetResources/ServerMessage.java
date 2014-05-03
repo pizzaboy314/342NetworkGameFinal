@@ -79,15 +79,17 @@ public class ServerMessage implements Serializable {
 		insertDiscardMessage = idis;
 		if (drawFromDeckMessage && fromserver)
 			c = ClientList.deck.drawCard();
-		if (insertDiscardMessage && fromserver)
+		if (insertDiscardMessage && fromserver){
 			ClientList.deck.insertCard(c);
+			System.out.println("IT GOT THIS SHIT");
+		}
 		insertDiscardMessage = ddis;
 		this.gameMessage = true;
 	}
 	
 	public ServerMessage(String from, boolean idis, Card c, boolean fromserver){
 		insertDiscardMessage = idis;
-		ClientList.discard.PilePrint();
+		System.out.println(c.getValue() + "" + c.getColor() + "" + idis + "" + fromserver);
 		this.c = c;
 		if (insertDiscardMessage && fromserver){
 			ClientList.discard.insertCard(c);
