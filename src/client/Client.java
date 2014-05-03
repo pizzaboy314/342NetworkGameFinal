@@ -106,8 +106,8 @@ public class Client{
 					}
 					catch (Exception ex){
 						JOptionPane.showMessageDialog(panel, "Server shutdown, closing appliation");
-						System.exit(0);
 						ex.printStackTrace();
+						System.exit(0);
 						return;
 					}
 				}
