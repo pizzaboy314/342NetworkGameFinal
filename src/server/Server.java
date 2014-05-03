@@ -169,6 +169,7 @@ public class Server extends Thread{
 				{
 					System.out.println("Disconnecting user: " + username);
 					clientList.userDisconnect(username);
+					e.printStackTrace();
 					break;
 				}
 				catch (Exception ex)

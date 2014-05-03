@@ -76,6 +76,7 @@ public class ClientList {
 				catch (Exception ex)
 				{
 					System.err.println("Error in client disconnect");
+					ex.printStackTrace();
 				}
 			}
 		}

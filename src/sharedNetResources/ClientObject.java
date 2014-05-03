@@ -38,6 +38,7 @@ public class ClientObject implements Serializable {
 			in = new ObjectInputStream(_userSocket.getInputStream());
 			out = new ObjectOutputStream(_userSocket.getOutputStream());
 		} catch(Exception ex){
+			ex.printStackTrace();
 			System.err.println("Unable to create the input/out stream(s)");
 		}
 	}
