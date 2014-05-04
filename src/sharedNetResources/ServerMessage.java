@@ -93,10 +93,11 @@ public class ServerMessage implements Serializable {
 		this.c = c;
 		if (insertDiscardMessage && fromserver){
 			ClientList.discard.insertCard(c);
+			discardHistory = ClientList.discard.PilePrint();
+			System.out.println("This is our current pile: " + discardHistory);
 		}
-		System.out.println("This is my size" + ClientList.discard.pile.size());
-		discardHistory = ClientList.discard.PilePrint();
-		System.out.println(discardHistory);
+		//System.out.println("This is my size" + ClientList.discard.pile.size());
+		
 		this.gameMessage = true;
 	}
 	/**
